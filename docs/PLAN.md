@@ -96,11 +96,11 @@ manque dans le README (« ce que j'ai laissé de côté »).
 
 **Objectif** : versionner le kit d'origine avant toute modification (demandé par l'énoncé).
 
-- [ ] `git init -b main`, vérifier `.gitignore` (ajouter `dist/`, `.idea/`, `coverage/`, `.env.local`).
-- [ ] Commit initial du kit tel que reçu : `chore: importe le kit d'exercice`.
-- [ ] Commit de `CLAUDE.md`, `docs/PLAN.md`, `docs/DECISIONS.md` : `docs: ajoute le cadrage pour l'agent`.
-- [ ] Vérifier que l'API démarre : `npm start` puis `curl 'http://localhost:4000/videos?per_page=2'`.
-- [ ] (Si dépôt distant) créer le dépôt GitHub / GitLab, `git push -u origin main`.
+- [x] `git init -b main`, vérifier `.gitignore` (ajouter `dist/`, `.idea/`, `coverage/`, `.env.local`).
+- [x] Commit initial du kit tel que reçu : `chore: importe le kit d'exercice`.
+- [x] Commit de `CLAUDE.md`, `docs/PLAN.md`, `docs/DECISIONS.md` : `docs: ajoute le cadrage pour l'agent`.
+- [x] Vérifier que l'API démarre : `npm start` puis `curl 'http://localhost:4000/videos?per_page=2'`.
+- [x] (Si dépôt distant) créer le dépôt GitHub / GitLab, `git push -u origin main`.
 
 **Critère d'acceptation** : `git log` montre le kit d'origine en premier commit ; `main` est la
 seule branche ; à partir d'ici, plus aucun commit direct sur `main` (voir « Workflow Git »).
