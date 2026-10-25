@@ -158,7 +158,7 @@ votre séance est conservée » + « Réessayer »).
 
 Liste : nom, date, nombre de vidéos, durée totale. Détail : liste ordonnée des vidéos.
 
-- [ ] Vérifications vertes, branche relue par l'humain, puis fusion dans `main` (`git merge --no-ff`) et suppression de la branche.
+- [x] Vérifications vertes, branche relue par l'humain, puis fusion dans `main` (`git merge --no-ff`) et suppression de la branche.
 
 **Critère d'acceptation** : les PNG et `NOTES.md` sont dans `docs/maquettes/` et commités.
 
