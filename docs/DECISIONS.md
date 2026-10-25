@@ -27,7 +27,16 @@ Format : `AAAA-MM-JJ — Hypothèse — Pourquoi — Question posée par mail ? 
 
 ## Choix d'interface (et pour qui)
 
--
+- 2026-10-26 — Palette « bleu institutionnel, terre cuite » et police Atkinson Hyperlegible Next
+  (maquette 00) : sobre, très lisible pour un public peu à l'aise ou malvoyant, contrastes AA vérifiés.
+- 2026-10-26 — Tablette paysage = disposition desktop (catalogue + panneau) ; seule la tablette
+  portrait passe le panneau en barre fixe + tiroir (maquettes 02 et 03).
+
+## Écarts maquettes / CLAUDE.md
+
+- 2026-10-26 — Message de chargement lent : ~5 s sur la maquette 04, **> 2 s** retenu (`CLAUDE.md`).
+- 2026-10-26 — Boutons ↑ / ↓ inactifs en bout de liste : `aria-disabled` plutôt que `disabled`
+  pour ne pas perdre le focus après un déplacement (règle focus de `CLAUDE.md`).
 
 ## Laissé de côté volontairement
 
