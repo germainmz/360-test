@@ -3,14 +3,20 @@ import { jsonResponse, mockFetch } from '../test/fetchMock'
 import { ApiError } from './ApiError'
 import { apiGet, apiPost, buildUrl } from './client'
 
+// Tests du client HTTP sans vrai serveur : `fetch` est remplacé par une fausse réponse
+// pour reproduire chaque cas que l'API simulée peut renvoyer (succès, 500, 422, coupure…).
+
+// Configuration remplaçable test par test, pour simuler une URL d'API différente.
 const mockConfig = vi.hoisted(() => ({ apiUrl: 'http://localhost:4000' }))
 vi.mock('../config', () => ({ config: mockConfig }))
 
+// Remet le vrai `fetch` et l'URL par défaut entre deux tests.
 afterEach(() => {
   vi.unstubAllGlobals()
   mockConfig.apiUrl = 'http://localhost:4000'
 })
 
+// Récupère l'erreur levée pour pouvoir inspecter ses propriétés (type, statut, détails).
 async function catchError(promise: Promise<unknown>): Promise<unknown> {
   try {
     await promise
@@ -27,6 +33,7 @@ describe('buildUrl', () => {
     )
   })
 
+  // Cas du déploiement Docker : le front appelle « /api », relayé par nginx.
   it('accepte une URL d’API relative (derrière un proxy)', () => {
     mockConfig.apiUrl = '/api'
     expect(buildUrl('/jobs')).toBe(`${window.location.origin}/api/jobs`)
@@ -47,6 +54,7 @@ describe('apiGet / apiPost', () => {
     expect(init?.body).toBe('{"name":"Atelier","video_ids":["vid_001"]}')
   })
 
+  // L'API simulée renvoie ce type d'erreur au hasard (8 % des lectures, 25 % des enregistrements).
   it('lève une ApiError « server » réessayable sur une 500', async () => {
     mockFetch(() =>
       jsonResponse({ error: 'internal_error', message: 'An unexpected error occurred.' }, 500),
@@ -57,6 +65,7 @@ describe('apiGet / apiPost', () => {
     expect(error instanceof ApiError && error.isRetryable).toBe(true)
   })
 
+  // Ces messages seront affichés sous le champ concerné du formulaire de séance (étape 6).
   it('lève une ApiError « client » avec les détails par champ sur une 422', async () => {
     mockFetch(() =>
       jsonResponse(
@@ -82,6 +91,7 @@ describe('apiGet / apiPost', () => {
     })
   })
 
+  // Ex. : un proxy qui répond en texte brut au lieu du JSON de l'API.
   it('tolère un corps d’erreur absent ou inattendu', async () => {
     mockFetch(() => new Response('Bad gateway', { status: 502 }))
     const error = await catchError(apiGet('/videos'))
@@ -94,6 +104,7 @@ describe('apiGet / apiPost', () => {
     expect(error).toMatchObject({ kind: 'network', status: null, code: 'network_error' })
   })
 
+  // Une recherche remplacée par une plus récente est annulée : ce n'est pas une panne à afficher.
   it('laisse passer une annulation sans la transformer en erreur réseau', async () => {
     const controller = new AbortController()
     mockFetch(() => {

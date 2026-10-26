@@ -2,6 +2,10 @@ import { describe, expect, it } from 'vitest'
 import type { Job } from '../api/types'
 import { createJobIndex, normalizeText } from './jobIndex'
 
+// Tests de la recherche de métiers : l'API ne cherche que dans les titres de vidéos, donc
+// c'est cet index qui permet de taper « garagiste » et de trouver Mécanicien automobile.
+
+// Fabrique un métier ; les domaines ne servent pas à la recherche, ils sont remplis au minimum.
 function job(code: string, label: string, appellations: string[]): Job {
   return {
     code,
@@ -29,6 +33,7 @@ const jobs = [
 ]
 
 const search = createJobIndex(jobs)
+// Raccourci : ne garde que les codes ROME trouvés, pour des assertions courtes.
 const codes = (query: string) => search(query).map((m) => m.job.code)
 
 describe('normalizeText', () => {

@@ -1,5 +1,7 @@
+// Outils de test pour simuler l'API sans lancer le serveur.
 import { vi } from 'vitest'
 
+/** Fausse réponse HTTP au format JSON, comme celles de l'API. */
 export function jsonResponse(body: unknown, status = 200): Response {
   return new Response(JSON.stringify(body), {
     status,

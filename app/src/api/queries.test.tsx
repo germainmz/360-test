@@ -7,10 +7,13 @@ import { useVideos } from './queries'
 import type { VideoFilters } from './queryKeys'
 import type { Paginated, Video } from './types'
 
+// Tests des hooks de données, avec un faux `fetch` dont on contrôle le moment de chaque réponse.
+
 afterEach(() => {
   vi.unstubAllGlobals()
 })
 
+// Fabrique une page de résultats d'une seule vidéo, reconnaissable à son titre.
 function page(title: string, meta: Partial<Paginated<Video>['meta']> = {}): Paginated<Video> {
   return {
     data: [
@@ -30,13 +33,17 @@ function page(title: string, meta: Partial<Paginated<Video>['meta']> = {}): Pagi
   }
 }
 
+// Cache neuf à chaque test, sans réessai, pour que les tests restent indépendants et rapides.
 function wrapper({ children }: { children: ReactNode }) {
   const client = new QueryClient({ defaultOptions: { queries: { retry: false } } })
   return <QueryClientProvider client={client}>{children}</QueryClientProvider>
 }
 
 describe('useVideos', () => {
+  // Cas réel : l'API peut mettre 4,5 s à répondre. On tape « garage » puis « boulanger » ;
+  // la réponse à « garage » arrive en dernier et ne doit pas remplacer les bons résultats.
   it('ignore une réponse lente arrivée après celle de la recherche suivante', async () => {
+    // Chaque requête reste en attente jusqu'à ce que le test décide d'y répondre.
     const pending = new Map<string, { resolve: (r: Response) => void; signal: AbortSignal }>()
     mockFetch(
       (url, init) =>
@@ -55,15 +62,18 @@ describe('useVideos', () => {
     rerender({ q: 'boulanger' })
     await waitFor(() => expect(pending.has('boulanger')).toBe(true))
 
+    // La recherche la plus récente répond en premier…
     act(() => pending.get('boulanger')?.resolve(jsonResponse(page('boulanger'))))
     await waitFor(() => expect(result.current.data?.pages[0]?.data[0]?.title).toBe('boulanger'))
 
+    // …puis l'ancienne, en retard : elle est ignorée et sa requête a été annulée.
     act(() => pending.get('garage')?.resolve(jsonResponse(page('garage'))))
     await new Promise((r) => setTimeout(r, 20))
     expect(result.current.data?.pages[0]?.data[0]?.title).toBe('boulanger')
     expect(pending.get('garage')?.signal.aborted).toBe(true)
   })
 
+  // Les espaces autour du texte sont retirés et les filtres vides ne sont pas envoyés.
   it('transmet tous les filtres et la pagination', async () => {
     const fetchMock = mockFetch(() => jsonResponse(page('a', { total: 30, total_pages: 2 })))
     const { result } = renderHook(
