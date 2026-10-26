@@ -188,7 +188,7 @@ Liste : nom, date, nombre de vidéos, durée totale. Détail : liste ordonnée d
 - [x] Jetons Tailwind (couleurs, focus ring) avec contrastes vérifiés AA.
 - [x] Un test de fumée : le layout s'affiche et passe `axe` sans violation.
 
-- [ ] Vérifications vertes, branche relue par l'humain, puis fusion dans `main` (`git merge --no-ff`) et suppression de la branche.
+- [x] Vérifications vertes, branche relue par l'humain, puis fusion dans `main` (`git merge --no-ff`) et suppression de la branche.
 
 **Critères d'acceptation** : `npm run dev` affiche le layout ; `typecheck`, `lint`, `test` et
 `build` passent ; aucune dépendance hors liste `CLAUDE.md`.
@@ -204,20 +204,20 @@ Liste : nom, date, nombre de vidéos, durée totale. Détail : liste ordonnée d
 **Prérequis** : étape 2.
 **Objectif** : un accès aux données typé, robuste aux lenteurs et aux erreurs du serveur simulé.
 
-- [ ] `src/api/types.ts` : `Video`, `Job`, `Headset`, `Audience`, `Session`, `Paginated<T>`,
+- [x] `src/api/types.ts` : `Video`, `Job`, `Headset`, `Audience`, `Session`, `Paginated<T>`,
       `ApiErrorBody` (`error`, `message`, `details?`), `SessionInput`. Écrits d'après `API.md`.
-- [ ] `src/api/client.ts` : `apiGet<T>(path, params, signal)` et `apiPost<T>(path, body)` ;
+- [x] `src/api/client.ts` : `apiGet<T>(path, params, signal)` et `apiPost<T>(path, body)` ;
       lève une `ApiError` (statut, code, message, `details`) ; distingue erreur réseau / 4xx / 5xx.
-- [ ] Hooks dans `src/api/queries.ts` :
+- [x] Hooks dans `src/api/queries.ts` :
   - `useVideos(filters)` : `useInfiniteQuery` sur `GET /videos` (`per_page: 24`), la clé contient
     tous les filtres, `signal` transmis (annulation des requêtes périmées).
   - `useJobs()`, `useHeadsets()`, `useAudiences()` : référentiels, mis en cache longtemps.
   - `useSessions()`, `useSession(id)`.
   - `useCreateSession()` : `useMutation` sur `POST /sessions`, invalide `sessions` au succès.
-- [ ] `src/lib/jobIndex.ts` : à partir de `/jobs`, fonction pure de recherche qui associe un texte
+- [x] `src/lib/jobIndex.ts` : à partir de `/jobs`, fonction pure de recherche qui associe un texte
       (« garagiste », « boulang ») aux codes ROME via `label` **et** `appellations` (insensible à la
       casse et aux accents).
-- [ ] Tests unitaires : `ApiError` sur 500 / 422 / réseau ; `jobIndex` (accents, appellations).
+- [x] Tests unitaires : `ApiError` sur 500 / 422 / réseau ; `jobIndex` (accents, appellations).
 
 - [ ] Vérifications vertes, branche relue par l'humain, puis fusion dans `main` (`git merge --no-ff`) et suppression de la branche.
 
