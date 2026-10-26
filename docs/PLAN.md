@@ -171,22 +171,22 @@ Liste : nom, date, nombre de vidéos, durée totale. Détail : liste ordonnée d
 **Prérequis** : étape 0.
 **Objectif** : une application Vite vide mais complète (outils, routage, données, style, tests).
 
-- [ ] Créer `app/` : `npm create vite@latest app -- --template react-ts`, React **18** (fixer
+- [x] Créer `app/` : `npm create vite@latest app -- --template react-ts`, React **18** (fixer
       `react@18` et `react-dom@18`, ainsi que les `@types` correspondants).
-- [ ] `tsconfig` : `strict: true`, `noUncheckedIndexedAccess: true`, `noImplicitOverride: true`.
-- [ ] Installer : `react-router` (v7), `@tanstack/react-query`, `tailwindcss` (+ plugin Vite),
+- [x] `tsconfig` : `strict: true`, `noUncheckedIndexedAccess: true`, `noImplicitOverride: true`.
+- [x] Installer : `react-router` (v7), `@tanstack/react-query`, `tailwindcss` (+ plugin Vite),
       `react-aria-components`.
-- [ ] Dev : `vitest`, `@testing-library/react`, `@testing-library/user-event`, `@testing-library/jest-dom`,
+- [x] Dev : `vitest`, `@testing-library/react`, `@testing-library/user-event`, `@testing-library/jest-dom`,
       `jsdom`, `vitest-axe`, ESLint (config Vite) + `eslint-plugin-jsx-a11y`, Prettier.
-- [ ] Scripts `package.json` : `dev`, `build`, `preview`, `typecheck`, `lint`, `test`.
-- [ ] `.env.example` avec `VITE_API_URL=http://localhost:4000` ; lecture typée dans `src/config.ts`.
-- [ ] `QueryClient` global : `retry: 2` pour les lectures, `retry: 0` pour les mutations (géré à la
+- [x] Scripts `package.json` : `dev`, `build`, `preview`, `typecheck`, `lint`, `test`.
+- [x] `.env.example` avec `VITE_API_URL=http://localhost:4000` ; lecture typée dans `src/config.ts`.
+- [x] `QueryClient` global : `retry: 2` pour les lectures, `retry: 0` pour les mutations (géré à la
       main à l'étape 6), `staleTime` de 5 min pour `/jobs`, `/headsets`, `/audiences`.
-- [ ] Routes : `/` (préparer une séance), `/seances` et `/seances/:id` (placeholders), page 404.
-- [ ] Layout : lien d'évitement « Aller au contenu », `<header>`, `<main id="contenu">`,
+- [x] Routes : `/` (préparer une séance), `/seances` et `/seances/:id` (placeholders), page 404.
+- [x] Layout : lien d'évitement « Aller au contenu », `<header>`, `<main id="contenu">`,
       `<html lang="fr">`, titre de page mis à jour à chaque route.
-- [ ] Jetons Tailwind (couleurs, focus ring) avec contrastes vérifiés AA.
-- [ ] Un test de fumée : le layout s'affiche et passe `axe` sans violation.
+- [x] Jetons Tailwind (couleurs, focus ring) avec contrastes vérifiés AA.
+- [x] Un test de fumée : le layout s'affiche et passe `axe` sans violation.
 
 - [ ] Vérifications vertes, branche relue par l'humain, puis fusion dans `main` (`git merge --no-ff`) et suppression de la branche.
 
