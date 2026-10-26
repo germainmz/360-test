@@ -1,6 +1,7 @@
 import { Link } from 'react-router'
 import { usePageTitle } from './usePageTitle'
 
+/** Adresse inconnue (lien périmé, faute de frappe) : on explique et on propose une sortie. */
 export function NotFoundPage() {
   usePageTitle('Page introuvable')
   return (

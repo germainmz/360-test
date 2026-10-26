@@ -41,6 +41,7 @@ export function useVideos(filters: VideoFilters) {
   })
 }
 
+/** Une vidéo par son identifiant ; ne fait rien tant que l'identifiant est inconnu. */
 export function useVideo(id: string | undefined) {
   return useQuery({
     queryKey: queryKeys.video(id ?? ''),
@@ -48,6 +49,9 @@ export function useVideo(id: string | undefined) {
     enabled: Boolean(id),
   })
 }
+
+// Référentiels (métiers, casques, publics) : `select` renvoie directement la liste,
+// sans l'enveloppe `{ data }` de l'API.
 
 export function useJobs() {
   return useQuery({
@@ -73,6 +77,7 @@ export function useAudiences() {
   })
 }
 
+/** Séances enregistrées, la plus récente en premier (ordre donné par l'API). */
 export function useSessions() {
   return useQuery({
     queryKey: queryKeys.sessions,
@@ -90,10 +95,13 @@ export function useSession(id: string | undefined) {
   })
 }
 
+/** Enregistre une séance. Pas de réessai automatique ici : il est géré à l'étape 6. */
 export function useCreateSession() {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: (input: SessionInput) => apiPost<Session>('/sessions', input),
+    // La nouvelle séance est mise en cache tout de suite (détail affichable sans attendre)
+    // et la liste « Mes séances » sera rechargée pour l'inclure.
     onSuccess: (session) => {
       queryClient.setQueryData(queryKeys.session(session.id), session)
       return queryClient.invalidateQueries({ queryKey: queryKeys.sessions, exact: true })

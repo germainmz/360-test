@@ -1,8 +1,12 @@
 import { config } from '../config'
 import { ApiError, parseErrorBody } from './ApiError'
 
+// Seul endroit qui parle à l'API : URL de base, en-têtes et traduction des erreurs.
+// Le reste de l'application passe par les hooks de queries.ts.
+
 export type QueryParams = Record<string, string | number | null | undefined>
 
+/** Construit l'URL complète ; les paramètres vides (filtre non choisi) ne sont pas envoyés. */
 export function buildUrl(path: string, params: QueryParams = {}): string {
   // `apiUrl` peut être absolue (http://localhost:4000) ou relative (/api, derrière un proxy).
   const url = new URL(config.apiUrl + path, window.location.origin)
@@ -29,6 +33,7 @@ async function request<T>(url: string, init: RequestInit): Promise<T> {
     })
   }
 
+  // Le serveur a répondu, mais avec une erreur : on lit son message s'il y en a un.
   if (!response.ok) {
     const body: unknown = await response.json().catch(() => null)
     const kind = response.status >= 500 ? 'server' : 'client'
@@ -40,10 +45,12 @@ async function request<T>(url: string, init: RequestInit): Promise<T> {
   return data
 }
 
+/** Lecture. `signal` permet d'annuler la requête si elle devient inutile. */
 export function apiGet<T>(path: string, params?: QueryParams, signal?: AbortSignal): Promise<T> {
   return request<T>(buildUrl(path, params), { method: 'GET', signal })
 }
 
+/** Envoi de données en JSON (enregistrement d'une séance). */
 export function apiPost<T>(path: string, body: unknown, signal?: AbortSignal): Promise<T> {
   return request<T>(buildUrl(path), {
     method: 'POST',

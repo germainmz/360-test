@@ -1,3 +1,4 @@
+/** Filtres du catalogue ; l'API n'accepte qu'une seule valeur par filtre. */
 export interface VideoFilters {
   /** Texte cherché dans le titre. */
   q?: string
@@ -18,6 +19,11 @@ export function normalizeFilters(filters: VideoFilters): VideoFilters {
   return normalized
 }
 
+/**
+ * Clés du cache des données serveur, définies à un seul endroit. Deux requêtes avec la même clé
+ * partagent le même résultat ; changer un filtre change la clé, donc relance une requête.
+ * `session` commence par « sessions » : rafraîchir la liste peut aussi viser chaque détail.
+ */
 export const queryKeys = {
   videos: (filters: VideoFilters) => ['videos', normalizeFilters(filters)] as const,
   video: (id: string) => ['video', id] as const,
