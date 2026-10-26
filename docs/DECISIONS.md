@@ -47,6 +47,11 @@ Format : `AAAA-MM-JJ — Hypothèse — Pourquoi — Question posée par mail ? 
   pilotent l'affichage des messages.
 - 2026-10-26 — `refetchOnWindowFocus` désactivé : éviter que le catalogue se recharge et bouge quand
   on revient sur l'onglet ou réveille la tablette devant le groupe.
+- 2026-10-26 — **Déploiement Docker** (demandé par l'humain, hors plan, branche `chore/docker`) :
+  `docker compose up --build` lance l'API (Dockerfile du kit, inchangé) et le front (build Vite servi
+  par l'image `nginx:1.27-alpine`, ajoutée pour l'occasion). nginx relaie `/api/` et `/thumbnails/`
+  vers l'API : même origine, pas de CORS, et le front est construit avec `VITE_API_URL=/api`.
+  `Host` est transmis avec le port pour que l'API génère des URL de vignettes valides.
 
 ## Choix d'interface (et pour qui)
 

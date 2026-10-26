@@ -1,0 +1,23 @@
+# Projet complet : docker compose up --build, puis http://localhost:8080
+services:
+  # API simulée, construite avec le Dockerfile fourni à la racine du kit.
+  api:
+    build: .
+    # Exposée aussi en direct (http://localhost:4000), pratique pour la tester avec curl.
+    ports:
+      - '4000:4000'
+    # L'API est « prête » quand /health répond ; le front attend ce signal pour démarrer.
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://localhost:4000/health']
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # Front compilé, servi par nginx (voir app/Dockerfile et app/nginx.conf).
+  web:
+    build: ./app
+    ports:
+      - '8080:80'
+    depends_on:
+      api:
+        condition: service_healthy
