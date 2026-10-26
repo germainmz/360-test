@@ -235,25 +235,25 @@ réponse plus récente (vérifié par la clé de requête + test ou relecture).
 **Prérequis** : étapes 1 et 3. Lire `docs/maquettes/01..04` et `NOTES.md`.
 **Objectif** : rechercher et filtrer le catalogue, avec tous les états d'interface.
 
-- [ ] État des filtres dans l'URL (`?q=&audience=&headset=&job=`), hook `useCatalogFilters()`.
-- [ ] Recherche : champ avec libellé visible, déclenchement avec *debounce* ~300 ms, `type="search"`.
+- [x] État des filtres dans l'URL (`?q=&audience=&headset=&job=`), hook `useCatalogFilters()`.
+- [x] Recherche : champ avec libellé visible, déclenchement avec *debounce* ~300 ms, `type="search"`.
       Stratégie (hypothèse à noter) : si le texte correspond à un métier via `jobIndex`, proposer le
       métier en suggestion (« Métier : Mécanicien·ne automobile ») qui pose le filtre `job` ; sinon,
       envoyer `q` (titre).
-- [ ] Filtre *Public* (boutons segmentés ou select), *Casque* (select), *Métier* (combobox React Aria
+- [x] Filtre *Public* (boutons segmentés ou select), *Casque* (select), *Métier* (combobox React Aria
       groupée par `major_domain`). Une seule valeur par filtre (contrainte API).
-- [ ] « Effacer les filtres » visible dès qu'un filtre est actif ; filtres actifs affichés en puces
+- [x] « Effacer les filtres » visible dès qu'un filtre est actif ; filtres actifs affichés en puces
       retirables.
-- [ ] Compteur de résultats depuis `meta.total`, annoncé en `aria-live="polite"`.
-- [ ] `VideoCard` : vignette (repli si `thumbnail_url` est `null`), titre en `h3`, intitulé(s) métier
+- [x] Compteur de résultats depuis `meta.total`, annoncé en `aria-live="polite"`.
+- [x] `VideoCard` : vignette (repli si `thumbnail_url` est `null`), titre en `h3`, intitulé(s) métier
       (jamais le code seul), durée formatée (`formatDuration` : « 7 min 35 s »), public(s).
       Bouton « Ajouter à la séance » (branché à l'étape 5 ; ici, prop `onAdd` factice).
-- [ ] Pagination : bouton « Afficher plus de vidéos (24 sur 204) » ; le focus va sur la première
+- [x] Pagination : bouton « Afficher plus de vidéos (24 sur 204) » ; le focus va sur la première
       nouvelle carte après chargement.
-- [ ] États : squelettes au premier chargement ; résultats précédents conservés (opacité réduite)
+- [x] États : squelettes au premier chargement ; résultats précédents conservés (opacité réduite)
       pendant un changement de filtre ; message « chargement plus long que d'habitude » après 2 s ;
       vide avec « Effacer les filtres » ; erreur avec « Réessayer » sans perdre les filtres.
-- [ ] Tests : filtres ↔ URL, état vide, état d'erreur + réessai, `axe` sur la liste.
+- [x] Tests : filtres ↔ URL, état vide, état d'erreur + réessai, `axe` sur la liste.
 
 - [ ] Vérifications vertes, branche relue par l'humain, puis fusion dans `main` (`git merge --no-ff`) et suppression de la branche.
 
