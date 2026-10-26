@@ -40,6 +40,7 @@ cd app && npm run dev        # front sur http://localhost:5173
 cd app && npm run typecheck  # tsc --noEmit
 cd app && npm run lint
 cd app && npm test           # vitest run
+docker compose up --build    # projet complet (API + front) sur http://localhost:8080
 ```
 
 Avant de déclarer une tâche terminée : `typecheck`, `lint` et `test` passent.
