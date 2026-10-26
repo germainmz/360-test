@@ -24,6 +24,19 @@ Format : `AAAA-MM-JJ — Hypothèse — Pourquoi — Question posée par mail ? 
   (combobox, dialog) sans lutter contre un thème ; Tailwind est utilisé par l'équipe.
 - 2026-10-25 — Réordonner par boutons « Monter / Descendre » plutôt que glisser-déposer : utilisable
   au clavier, au lecteur d'écran et au doigt sans précision.
+- 2026-10-26 — Le gabarit Vite actuel fournit oxlint : remplacé par **ESLint 9** comme prévu, pour
+  `eslint-plugin-jsx-a11y` (règles `strict`). ESLint 10 écarté : jsx-a11y ne le supporte pas encore.
+- 2026-10-26 — Versions du gabarit conservées : Vite 8, TypeScript 6, Vitest 5, Tailwind 4 ; React
+  fixé en 18.3 comme demandé.
+- 2026-10-26 — Police Atkinson Hyperlegible Next chargée depuis Google Fonts (pas de dépendance npm) ;
+  repli `system-ui` si le réseau la bloque.
+- 2026-10-26 — `vitest-axe` 0.1 déclare ses matchers pour l'ancien Vitest : les tests vérifient
+  `results.violations` égal à `[]` au lieu d'étendre `expect`. La règle `color-contrast` d'axe ne
+  tourne pas sous jsdom : les contrastes sont vérifiés par un test sur les jetons de `index.css`.
+- 2026-10-26 — `npm run typecheck` = `tsc -b` (références de projet du gabarit), équivalent à
+  `tsc --noEmit` cité dans `CLAUDE.md`.
+- 2026-10-26 — `refetchOnWindowFocus` désactivé : éviter que le catalogue se recharge et bouge quand
+  on revient sur l'onglet ou réveille la tablette devant le groupe.
 
 ## Choix d'interface (et pour qui)
 

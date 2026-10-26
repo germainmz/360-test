@@ -1,0 +1,49 @@
+@import 'tailwindcss';
+
+/*
+ * Jetons issus de docs/maquettes/00-fondations-visuelles.png (palette 1a).
+ * Contrastes vérifiés par src/lib/contrast.test.ts.
+ */
+@theme {
+  --font-sans: 'Atkinson Hyperlegible Next', ui-sans-serif, system-ui, sans-serif;
+
+  --color-paper: #faf7f2;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f2eee6;
+  --color-ink: #1e2733;
+  --color-ink-muted: #55606e;
+  --color-border: #8a8378;
+  --color-border-subtle: #d9d2c5;
+  --color-action: #1f4e8c;
+  --color-action-hover: #163a69;
+  --color-action-subtle: #e9f0f8;
+  --color-accent: #a8481f;
+  --color-warning-subtle: #fbede7;
+  --color-success: #2e6b3e;
+  --color-success-subtle: #e8f1ea;
+  --color-danger: #a4262c;
+  --color-danger-subtle: #fbeaea;
+  --color-focus: #1e2733;
+}
+
+@layer base {
+  body {
+    @apply bg-paper font-sans text-lg text-ink;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 3px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
