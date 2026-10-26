@@ -1,3 +1,5 @@
+# Fichiers à ne pas envoyer à Docker : les dépendances sont réinstallées dans l'image
+# (npm ci) et le build est refait, on évite ainsi d'embarquer des fichiers de la machine.
 node_modules
 dist
 coverage
