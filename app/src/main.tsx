@@ -7,6 +7,7 @@ import { createQueryClient } from './api/queryClient'
 import './index.css'
 import { routes } from './routes'
 
+// Point d'entrée : branche le cache des données serveur et le routeur, puis affiche l'application.
 const queryClient = createQueryClient()
 const router = createBrowserRouter(routes)
 

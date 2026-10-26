@@ -15,12 +15,14 @@ export default defineConfig([
       tseslint.configs.strict,
       reactHooks.configs.flat.recommended,
       reactRefresh.configs.vite,
+      // Signale les erreurs d'accessibilité visibles dans le code (alt manquant, clic sans clavier…).
       jsxA11y.flatConfigs.strict,
     ],
     languageOptions: {
       ecmaVersion: 2023,
       globals: globals.browser,
     },
+    // Règles de CLAUDE.md : pas de console.log oublié, pas de `any`, pas de `as` qui cache une erreur.
     rules: {
       'no-console': 'error',
       '@typescript-eslint/no-explicit-any': 'error',

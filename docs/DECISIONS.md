@@ -15,6 +15,13 @@ Format : `AAAA-MM-JJ — Hypothèse — Pourquoi — Question posée par mail ? 
   car `q` ne cherche que dans le titre — non.
 - 2026-10-25 — Le casque est facultatif ; s'il est choisi, les vidéos incompatibles sont signalées
   mais pas bloquées — l'API ne vérifie pas la compatibilité — non.
+- 2026-10-26 — Recherche de métier : chaque mot saisi doit être le début d'un mot du libellé ou d'une
+  appellation, avec une tolérance de famille de mots (racine commune ≥ 5 lettres : « coiffure » →
+  Coiffeur, « logistique » → Cariste). Les libellés passent avant les appellations. Quelques
+  rapprochements larges (« cuisine » → livreur de plats cuisinés) acceptés : ils restent des
+  suggestions — non.
+- 2026-10-26 — Les lectures en erreur 5xx ou réseau sont réessayées 2 fois, jamais les 4xx (une 404
+  ne changera pas) — non.
 
 ## Choix techniques
 
@@ -35,6 +42,9 @@ Format : `AAAA-MM-JJ — Hypothèse — Pourquoi — Question posée par mail ? 
   tourne pas sous jsdom : les contrastes sont vérifiés par un test sur les jetons de `index.css`.
 - 2026-10-26 — `npm run typecheck` = `tsc -b` (références de projet du gabarit), équivalent à
   `tsc --noEmit` cité dans `CLAUDE.md`.
+- 2026-10-26 — Les réponses de l'API ne sont pas validées à l'exécution (pas de Zod, hors liste) :
+  les types de `api/types.ts` suivent `API.md` ; seuls les corps d'erreur sont vérifiés, car ils
+  pilotent l'affichage des messages.
 - 2026-10-26 — `refetchOnWindowFocus` désactivé : éviter que le catalogue se recharge et bouge quand
   on revient sur l'onglet ou réveille la tablette devant le groupe.
 

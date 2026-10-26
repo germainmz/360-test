@@ -1,7 +1,11 @@
+// Vérifie que les couleurs de l'interface restent lisibles (WCAG 2.2 AA).
+// Les couleurs sont lues directement dans index.css : si quelqu'un change un jeton
+// et casse un contraste, ce test échoue. axe ne peut pas le faire sous jsdom.
 import { describe, expect, it } from 'vitest'
 import css from '../index.css?raw'
 import { contrastRatio } from './contrast'
 
+// Associe chaque nom de jeton (« ink », « action »…) à sa valeur hexadécimale.
 const tokens = new Map(
   [...css.matchAll(/--color-([a-z-]+):\s*(#[0-9a-f]{6})/gi)].map((m) => [m[1], m[2]]),
 )
@@ -12,9 +16,12 @@ function token(name: string): string {
   return value
 }
 
+// Seuils WCAG AA : texte courant, puis bordures, anneau de focus et icônes.
 const TEXT = 4.5
 const NON_TEXT = 3
 
+// Chaque couple réellement utilisé dans l'interface : [couleur du premier plan, fond, seuil].
+// « surface » en premier plan = texte blanc sur un bouton coloré.
 const pairs: [foreground: string, background: string, minimum: number][] = [
   ['ink', 'paper', TEXT],
   ['ink', 'surface', TEXT],
@@ -42,6 +49,7 @@ const pairs: [foreground: string, background: string, minimum: number][] = [
   ['focus', 'surface', NON_TEXT],
 ]
 
+// D'abord le calcul lui-même, sur des valeurs connues, pour pouvoir lui faire confiance ensuite.
 describe('contrastRatio', () => {
   it('donne 21:1 entre le noir et le blanc', () => {
     expect(contrastRatio('#000000', '#ffffff')).toBeCloseTo(21, 5)
