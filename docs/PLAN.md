@@ -219,7 +219,7 @@ Liste : nom, date, nombre de vidéos, durée totale. Détail : liste ordonnée d
       casse et aux accents).
 - [x] Tests unitaires : `ApiError` sur 500 / 422 / réseau ; `jobIndex` (accents, appellations).
 
-- [ ] Vérifications vertes, branche relue par l'humain, puis fusion dans `main` (`git merge --no-ff`) et suppression de la branche.
+- [x] Vérifications vertes, branche relue par l'humain, puis fusion dans `main` (`git merge --no-ff`) et suppression de la branche.
 
 **Critères d'acceptation** : tests verts ; aucun `any` ; une réponse lente ne peut pas écraser une
 réponse plus récente (vérifié par la clé de requête + test ou relecture).
