@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { formatDuration } from './formatDuration'
+import { formatDuration, formatTotalDuration } from './formatDuration'
 
 // Les durées de l'API sont en secondes ; l'interface les affiche comme sur les maquettes.
 describe('formatDuration', () => {
@@ -17,5 +17,16 @@ describe('formatDuration', () => {
   it('arrondit les secondes et ignore les valeurs négatives', () => {
     expect(formatDuration(59.6)).toBe('1 min')
     expect(formatDuration(-5)).toBe('0 s')
+  })
+})
+
+describe('formatTotalDuration', () => {
+  it.each([
+    [1990, '33 min'],
+    [11520, '3 h 12 min'],
+    [45, '45 s'],
+    [0, '0 s'],
+  ])('%i s → « %s »', (seconds, expected) => {
+    expect(formatTotalDuration(seconds)).toBe(expected)
   })
 })

@@ -3,13 +3,15 @@ import { useState } from 'react'
 interface VideoThumbnailProps {
   src: string | null
   className?: string
+  /** Miniature du panneau séance : visuel de remplacement sans texte. */
+  compact?: boolean
 }
 
 /**
  * Vignette décorative (`alt=""`) : le titre est lu juste à côté. Si l'image manque (3 vidéos
  * sans vignette) ou ne se charge pas, on affiche un visuel de remplacement explicite.
  */
-export function VideoThumbnail({ src, className = '' }: VideoThumbnailProps) {
+export function VideoThumbnail({ src, className = '', compact = false }: VideoThumbnailProps) {
   const [failed, setFailed] = useState(false)
   const showImage = src !== null && !failed
 
@@ -23,7 +25,7 @@ export function VideoThumbnail({ src, className = '' }: VideoThumbnailProps) {
           onError={() => setFailed(true)}
           className="size-full object-cover"
         />
-      ) : (
+      ) : compact ? null : (
         <div className="flex size-full flex-col items-center justify-center gap-2 text-ink-muted">
           <span
             aria-hidden="true"

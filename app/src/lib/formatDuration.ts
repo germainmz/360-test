@@ -12,3 +12,12 @@ export function formatDuration(totalSeconds: number): string {
     .filter(Boolean)
     .join(' ')
 }
+
+/**
+ * Durée totale d'une séance, arrondie à la minute comme sur les maquettes : « 33 min »,
+ * « 3 h 12 min ». En dessous d'une minute, on garde les secondes.
+ */
+export function formatTotalDuration(totalSeconds: number): string {
+  if (totalSeconds < 60) return formatDuration(totalSeconds)
+  return formatDuration(Math.round(totalSeconds / 60) * 60)
+}
