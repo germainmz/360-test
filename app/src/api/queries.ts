@@ -2,8 +2,11 @@ import {
   keepPreviousData,
   useInfiniteQuery,
   useMutation,
+  useQueries,
   useQuery,
   useQueryClient,
+  type InfiniteData,
+  type QueryClient,
 } from '@tanstack/react-query'
 import { apiGet, apiPost } from './client'
 import { shouldRetrySave } from './queryClient'
@@ -42,12 +45,37 @@ export function useVideos(filters: VideoFilters) {
   })
 }
 
-/** Une vidéo par son identifiant ; ne fait rien tant que l'identifiant est inconnu. */
-export function useVideo(id: string | undefined) {
-  return useQuery({
-    queryKey: queryKeys.video(id ?? ''),
-    queryFn: ({ signal }) => apiGet<Video>(`/videos/${encodeURIComponent(id ?? '')}`, {}, signal),
-    enabled: Boolean(id),
+/** Une vidéo ne change pas pendant l'utilisation : inutile de la recharger à chaque écran. */
+const VIDEO_STALE_TIME = 5 * 60 * 1000
+
+/** Vidéo déjà reçue dans une page du catalogue : affichée sans nouvelle requête. */
+function findCatalogVideo(queryClient: QueryClient, id: string): Video | undefined {
+  const cached = queryClient.getQueriesData<InfiniteData<Paginated<Video>>>({
+    queryKey: ['videos'],
+  })
+  for (const [, data] of cached) {
+    for (const page of data?.pages ?? []) {
+      const video = page.data.find((item) => item.id === id)
+      if (video) return video
+    }
+  }
+  return undefined
+}
+
+/**
+ * Les vidéos d'une séance, dans l'ordre, une requête `GET /videos/{id}` par vidéo (l'API n'a pas
+ * de recherche par liste d'ids). Une vidéo déjà vue dans le catalogue vient du cache.
+ */
+export function useVideosByIds(ids: string[]) {
+  const queryClient = useQueryClient()
+  return useQueries({
+    queries: ids.map((id) => ({
+      queryKey: queryKeys.video(id),
+      queryFn: ({ signal }: { signal: AbortSignal }) =>
+        apiGet<Video>(`/videos/${encodeURIComponent(id)}`, {}, signal),
+      initialData: () => findCatalogVideo(queryClient, id),
+      staleTime: VIDEO_STALE_TIME,
+    })),
   })
 }
 
