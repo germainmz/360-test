@@ -3,13 +3,11 @@ import type { useVideos } from '../../api/queries'
 import { Button } from '../../components/Button'
 import { EmptyState } from '../../components/EmptyState'
 import { ErrorState } from '../../components/ErrorState'
-import { useDelayedFlag } from '../../hooks/useDelayedFlag'
+import { SlowLoadingMessage } from '../../components/SlowLoadingMessage'
 import type { CatalogReferences } from './useCatalogReferences'
 import { VideoCard } from './VideoCard'
 import { VideoCardSkeleton } from './VideoCardSkeleton'
 
-/** Au-delà, l'API simulée est « lente » : on rassure plutôt que de laisser croire à une panne. */
-const SLOW_LOADING_MS = 2000
 const SKELETON_COUNT = 6
 
 const gridClass = 'grid grid-cols-[repeat(auto-fill,minmax(16rem,1fr))] gap-5'
@@ -29,7 +27,6 @@ interface VideoListProps {
 export function VideoList({ query, references, hasActiveFilters, onClearFilters }: VideoListProps) {
   const { data, isPending, isError, isFetching, isPlaceholderData, refetch } = query
   const { hasNextPage, fetchNextPage, isFetchingNextPage, isFetchNextPageError } = query
-  const isSlow = useDelayedFlag(isFetching, SLOW_LOADING_MS)
 
   const videos = data?.pages.flatMap((page) => page.data) ?? []
   const total = data?.pages[0]?.meta.total ?? 0
@@ -50,17 +47,10 @@ export function VideoList({ query, references, hasActiveFilters, onClearFilters 
     void fetchNextPage()
   }
 
-  const slowMessage = isSlow && (
-    <p
-      role="status"
-      className="flex items-center gap-3 rounded-xl border-2 border-border-subtle bg-surface px-5 py-3"
-    >
-      <span
-        aria-hidden="true"
-        className="size-5 animate-spin rounded-full border-[3px] border-border-subtle border-t-action"
-      />
+  const slowMessage = (
+    <SlowLoadingMessage isLoading={isFetching}>
       Le catalogue met plus de temps que d’habitude à répondre…
-    </p>
+    </SlowLoadingMessage>
   )
 
   if (isPending) {
