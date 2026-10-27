@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react'
 import type { useVideos } from '../../api/queries'
-import type { Video } from '../../api/types'
 import { Button } from '../../components/Button'
 import { EmptyState } from '../../components/EmptyState'
 import { ErrorState } from '../../components/ErrorState'
@@ -20,7 +19,6 @@ interface VideoListProps {
   references: CatalogReferences
   hasActiveFilters: boolean
   onClearFilters: () => void
-  onAdd: (video: Video) => void
 }
 
 /**
@@ -28,13 +26,7 @@ interface VideoListProps {
  * avec « Réessayer », aucun résultat, résultats (gardés à l'écran pendant un changement de
  * filtre), et pagination par bouton.
  */
-export function VideoList({
-  query,
-  references,
-  hasActiveFilters,
-  onClearFilters,
-  onAdd,
-}: VideoListProps) {
+export function VideoList({ query, references, hasActiveFilters, onClearFilters }: VideoListProps) {
   const { data, isPending, isError, isFetching, isPlaceholderData, refetch } = query
   const { hasNextPage, fetchNextPage, isFetchingNextPage, isFetchNextPageError } = query
   const isSlow = useDelayedFlag(isFetching, SLOW_LOADING_MS)
@@ -126,7 +118,6 @@ export function VideoList({
               }}
               video={video}
               references={references}
-              onAdd={onAdd}
             />
           </li>
         ))}

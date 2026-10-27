@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import { useVideos } from '../../api/queries'
-import type { Job, Video } from '../../api/types'
+import type { Job } from '../../api/types'
 import { Button } from '../../components/Button'
 import { pluralize } from '../../lib/pluralize'
 import { ActiveFilters, type ActiveFilter } from './ActiveFilters'
@@ -12,12 +12,8 @@ import { useCatalogFilters } from './useCatalogFilters'
 import { useCatalogReferences } from './useCatalogReferences'
 import { VideoList } from './VideoList'
 
-interface CatalogProps {
-  onAdd: (video: Video) => void
-}
-
 /** Recherche, filtres et résultats du catalogue (partie gauche de l'écran « Préparer une séance »). */
-export function Catalog({ onAdd }: CatalogProps) {
+export function Catalog() {
   const { filters, update, clearAll, hasActiveFilters } = useCatalogFilters()
   const references = useCatalogReferences()
   const { jobs, headsets, audiences } = references
@@ -147,7 +143,6 @@ export function Catalog({ onAdd }: CatalogProps) {
         references={references}
         hasActiveFilters={hasActiveFilters}
         onClearFilters={clearFilters}
-        onAdd={onAdd}
       />
     </section>
   )
