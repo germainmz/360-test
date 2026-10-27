@@ -90,6 +90,7 @@ describe('Liste des séances', () => {
   it('sans séance, propose d’en préparer une', async () => {
     renderSessions('/seances')
     expect(await screen.findByText('Vous n’avez pas encore enregistré de séance')).toBeVisible()
+    expect((await axe(document.body)).violations).toEqual([])
     // Le lien de l'état vide, pas celui de la navigation principale.
     expect(
       within(screen.getByRole('main')).getByRole('link', { name: 'Préparer une séance' }),
@@ -208,6 +209,7 @@ describe('Repartir de cette séance', () => {
     expect(dialog).toHaveTextContent('« Mon atelier » (1 vidéo · 8 min)')
     const keep = within(dialog).getByRole('button', { name: 'Garder ma séance en cours' })
     await waitFor(() => expect(keep).toHaveFocus())
+    expect((await axe(document.body)).violations).toEqual([])
 
     await user.click(keep)
     await waitFor(() => expect(screen.queryByRole('alertdialog')).toBeNull())

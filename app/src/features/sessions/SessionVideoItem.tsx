@@ -12,7 +12,9 @@ interface SessionVideoItemProps {
   jobsByCode: CatalogReferences['jobsByCode']
 }
 
-const rowClass = 'flex items-center gap-4 border-b border-border-subtle py-4 last:border-b-0'
+// Sur un écran étroit (320 px, zoom 200 %), le titre et la durée passent sous la miniature.
+const rowClass =
+  'flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-border-subtle py-4 last:border-b-0'
 
 function Position({ value }: { value: number }) {
   return (
@@ -68,7 +70,7 @@ export function SessionVideoItem({ position, query, jobsByCode }: SessionVideoIt
         compact
         className="w-24 shrink-0 rounded-md border border-border-subtle"
       />
-      <div className="min-w-0 flex-1">
+      <div className="min-w-0 flex-1 basis-48">
         <p className="leading-6 font-semibold">
           <span className="sr-only">{position}. </span>
           {video.title}

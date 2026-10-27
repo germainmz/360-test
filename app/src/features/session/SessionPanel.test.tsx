@@ -135,6 +135,22 @@ describe('Composer la séance', () => {
     await waitFor(() => expect(router.state.location.search).toBe('?headset=meta-quest-3'))
   })
 
+  it('« Aller à ma séance » suit la navigation et mène au panneau sans traverser le catalogue', async () => {
+    const user = userEvent.setup()
+    renderPrepare()
+    await screen.findByRole('article', { name: 'Vidéo numéro 1' })
+
+    screen.getByRole('link', { name: 'Mes séances' }).focus()
+    await user.tab()
+    const skip = screen.getByRole('link', { name: 'Aller à ma séance' })
+    expect(skip).toHaveFocus()
+    await user.keyboard('{Enter}')
+    expect(panel().getByRole('heading', { name: 'Ma séance' })).toHaveFocus()
+    // Depuis le titre du panneau, Tab mène directement au nom de la séance.
+    await user.tab()
+    expect(panel().getByRole('textbox', { name: /Nom de la séance/ })).toHaveFocus()
+  })
+
   it('ne présente aucune violation axe avec des vidéos dans la séance', async () => {
     storeDraft([makeVideo(1), makeVideo(2)], 'meta-quest-3')
     const { container } = renderPrepare()
@@ -171,10 +187,27 @@ describe('Tablette portrait', () => {
 
     const dialog = await screen.findByRole('dialog', { name: 'Ma séance' })
     expect(within(dialog).getAllByRole('listitem')).toHaveLength(2)
+    // Le tiroir est rendu à la fin de <body> (portail) : on analyse toute la page.
+    expect((await axe(document.body)).violations).toEqual([])
     await user.keyboard('{Escape}')
 
     await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull())
     // Le focus revient sur le bouton qui a ouvert le tiroir.
     await waitFor(() => expect(open).toHaveFocus())
+  })
+
+  it('« Aller à ma séance » mène au bouton de la barre', async () => {
+    vi.stubGlobal('matchMedia', (query: string) => ({
+      matches: false,
+      media: query,
+      addEventListener: () => {},
+      removeEventListener: () => {},
+    }))
+    const user = userEvent.setup()
+    renderPrepare()
+
+    screen.getByRole('link', { name: 'Aller à ma séance' }).focus()
+    await user.keyboard('{Enter}')
+    expect(screen.getByRole('button', { name: 'Voir et enregistrer' })).toHaveFocus()
   })
 })

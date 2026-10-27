@@ -362,13 +362,13 @@ récupérable sans ressaisie ; aucune séance en double dans `GET /sessions`.
 **Objectif** : vérifier, pas ajouter de fonctionnalités.
 
 Agent :
-- [ ] `axe` sans violation sur chaque écran (tests) ; `eslint-plugin-jsx-a11y` sans avertissement.
-- [ ] Contrastes des jetons vérifiés (texte, focus, états désactivés, avertissements).
-- [ ] Ordre de tabulation logique, aucun piège au clavier, `Échap` ferme le tiroir.
-- [ ] Zoom 200 % et largeur 320 px : pas de perte de contenu.
-- [ ] Liste des points non corrigés dans `docs/DECISIONS.md`.
-- [ ] Un commit par correction (`fix(a11y): …`), pour que chaque correction soit lisible dans l'historique.
-- [ ] Après les vérifications humaines ci-dessous : fusion dans `main` (`git merge --no-ff`) et
+- [x] `axe` sans violation sur chaque écran (tests) ; `eslint-plugin-jsx-a11y` sans avertissement.
+- [x] Contrastes des jetons vérifiés (texte, focus, états désactivés, avertissements).
+- [x] Ordre de tabulation logique, aucun piège au clavier, `Échap` ferme le tiroir.
+- [x] Zoom 200 % et largeur 320 px : pas de perte de contenu.
+- [x] Liste des points non corrigés dans `docs/DECISIONS.md`.
+- [x] Un commit par correction (`fix(a11y): …`), pour que chaque correction soit lisible dans l'historique.
+- [x] Après les vérifications humaines ci-dessous : fusion dans `main` (`git merge --no-ff`) et
       suppression de la branche.
 
 Humain (à faire soi-même, l'agent ne peut pas le remplacer) :

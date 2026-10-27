@@ -6,7 +6,7 @@ import { LiveAnnouncer } from './LiveAnnouncer'
 // Onglet actif : souligné et en gras, pas seulement en couleur. min-h-11 = cible tactile de 44 px.
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   [
-    'flex min-h-11 items-center border-b-4 px-4 pt-1 text-lg',
+    'flex min-h-11 items-center border-b-4 px-3 pt-1 text-lg sm:px-4',
     isActive
       ? 'border-action font-bold text-action'
       : 'border-transparent text-ink hover:text-action',
@@ -29,7 +29,8 @@ export function Layout() {
           >
             Aller au contenu
           </a>
-          <header className="flex h-16 items-center gap-8 border-b border-border-subtle bg-surface px-6">
+          {/* Sous 640 px (téléphone, zoom 200 %), la navigation passe sous le logo au lieu de déborder. */}
+          <header className="flex flex-wrap items-center gap-x-8 border-b border-border-subtle bg-surface px-4 pt-2 sm:h-16 sm:px-6 sm:pt-0">
             <NavLink to="/" className="flex min-h-11 items-center gap-2.5 rounded-md text-ink">
               {/* Logo décoratif : le nom « Métiers 360 » juste à côté suffit aux lecteurs d'écran. */}
               <span
@@ -40,7 +41,10 @@ export function Layout() {
               </span>
               <span className="text-[22px] font-bold">Métiers 360</span>
             </NavLink>
-            <nav aria-label="Navigation principale" className="flex h-full gap-2">
+            <nav
+              aria-label="Navigation principale"
+              className="flex w-full gap-1 sm:h-full sm:w-auto sm:gap-2"
+            >
               <NavLink to="/" end className={navLinkClass}>
                 Préparer une séance
               </NavLink>
@@ -50,7 +54,7 @@ export function Layout() {
             </nav>
           </header>
           {/* tabIndex -1 : le lien d'évitement peut y placer le focus sans l'ajouter à la tabulation. */}
-          <main id="contenu" tabIndex={-1} className="px-6 py-6 outline-none">
+          <main id="contenu" tabIndex={-1} className="px-4 py-6 outline-none sm:px-6">
             <Outlet />
           </main>
         </SaveSessionProvider>

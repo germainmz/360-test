@@ -94,10 +94,12 @@ export function VideoList({ query, references, hasActiveFilters, onClearFilters 
   return (
     <div className="flex flex-col gap-5">
       {slowMessage}
+      {/* Anciens résultats légèrement estompés pendant la mise à jour : pas en dessous de 90 %,
+          sinon le texte secondaire passe sous le contraste 4,5:1 (5,05:1 à 90 %). */}
       <ul
         aria-label="Vidéos"
         aria-busy={isPlaceholderData}
-        className={`${gridClass} transition-opacity ${isPlaceholderData ? 'opacity-60' : ''}`}
+        className={`${gridClass} transition-opacity ${isPlaceholderData ? 'opacity-90' : ''}`}
       >
         {videos.map((video, index) => (
           <li key={video.id}>
