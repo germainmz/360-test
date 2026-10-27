@@ -46,7 +46,8 @@ export function ConfirmReplaceDialog({
           </h2>
           <p className="text-lg">
             Votre séance en préparation
-            {draftName ? ` « ${draftName} »` : ''} ({describeDraft(draft)}) n’a pas été enregistrée.
+            {draftName ? ` « ${draftName} »` : ''}
+            {draft.videos.length > 0 ? ` (${describeDraft(draft)})` : ''} n’a pas été enregistrée.
             Elle sera remplacée par une copie de « {sessionName} ».
           </p>
           <DialogActions onCancel={onCancel} onConfirm={onConfirm} />
