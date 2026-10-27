@@ -272,26 +272,26 @@ utilisable au clavier ; lisible en 768 × 1024.
 **Prérequis** : étape 4.
 **Objectif** : sélectionner, ordonner, nommer la séance, sans jamais perdre le brouillon.
 
-- [ ] `src/features/session/draftReducer.ts` (pur, testé) : actions `add`, `remove`, `moveUp`,
+- [x] `src/features/session/draftReducer.ts` (pur, testé) : actions `add`, `remove`, `moveUp`,
       `moveDown`, `moveTo`, `rename`, `setHeadset`, `reset`. Règles : pas de doublon, max 30 vidéos.
       Le brouillon stocke les objets `Video` utiles à l'affichage (pas seulement les ids).
-- [ ] `DraftProvider` + `useDraft()` ; persistance `localStorage` (clé versionnée `m360.draft.v1`),
+- [x] `DraftProvider` + `useDraft()` ; persistance `localStorage` (clé versionnée `m360.draft.v1`),
       relecture au démarrage, tolérante à un contenu corrompu.
-- [ ] Brancher « Ajouter à la séance » des cartes : état « Ajoutée ✓ » + possibilité de retirer.
+- [x] Brancher « Ajouter à la séance » des cartes : état « Ajoutée ✓ » + possibilité de retirer.
       Bouton désactivé avec explication à 30 vidéos.
-- [ ] Panneau `SessionPanel` : champ nom (libellé, compteur 120 car.), select casque, liste ordonnée
+- [x] Panneau `SessionPanel` : champ nom (libellé, compteur 120 car.), select casque, liste ordonnée
       (`<ol>`) avec numéro, miniature, titre, durée, boutons « Monter », « Descendre », « Retirer »
       (libellés accessibles incluant le titre : « Monter "Une journée avec Omar…" »).
-- [ ] Durée totale et nombre de vidéos toujours visibles.
-- [ ] Compatibilité : si un casque est choisi, signaler chaque vidéo incompatible (icône + texte,
+- [x] Durée totale et nombre de vidéos toujours visibles.
+- [x] Compatibilité : si un casque est choisi, signaler chaque vidéo incompatible (icône + texte,
       pas seulement la couleur) ; proposer d'appliquer ce casque comme filtre du catalogue.
-- [ ] Focus : après « Monter / Descendre », le focus reste sur le même bouton de la vidéo déplacée ;
+- [x] Focus : après « Monter / Descendre », le focus reste sur le même bouton de la vidéo déplacée ;
       après « Retirer », il va sur la vidéo suivante (ou sur le titre du panneau si la liste est vide).
-- [ ] Annonces `aria-live` : « Ajoutée à la séance (3 vidéos, 21 min) », « Déplacée en position 2 »,
+- [x] Annonces `aria-live` : « Ajoutée à la séance (3 vidéos, 21 min) », « Déplacée en position 2 »,
       « Retirée ».
-- [ ] Responsive : panneau latéral en desktop / tablette paysage ; barre fixe dépliable (dialog
+- [x] Responsive : panneau latéral en desktop / tablette paysage ; barre fixe dépliable (dialog
       accessible, `Échap` pour fermer, focus piégé) en tablette portrait.
-- [ ] Tests : reducer complet ; parcours clavier « ajouter 3 vidéos, déplacer la 3e en 1re, retirer
+- [x] Tests : reducer complet ; parcours clavier « ajouter 3 vidéos, déplacer la 3e en 1re, retirer
       la 2e » ; persistance après rechargement.
 
 - [ ] Vérifications vertes, branche relue par l'humain, puis fusion dans `main` (`git merge --no-ff`) et suppression de la branche.

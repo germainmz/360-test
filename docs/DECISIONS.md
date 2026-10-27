@@ -34,6 +34,11 @@ Format : `AAAA-MM-JJ — Hypothèse — Pourquoi — Question posée par mail ? 
   seul) ; une puce de filtre inconnu affiche « Métier : sélectionné » — non.
 - 2026-10-26 — Les lectures en erreur 5xx ou réseau sont réessayées 2 fois, jamais les 4xx (une 404
   ne changera pas) — non.
+- 2026-10-27 — Après « Retirer » dans le panneau, le focus va sur la vidéo suivante, à défaut la
+  précédente, à défaut le titre « Ma séance » — non.
+- 2026-10-27 — Casque choisi dans le panneau : chaque vidéo incompatible est signalée (icône +
+  texte), un résumé compte les vidéos concernées et propose « Afficher seulement les vidéos
+  compatibles », qui pose le filtre Casque du catalogue. Rien n'est bloqué — non.
 
 ## Choix techniques
 
@@ -64,12 +69,18 @@ Format : `AAAA-MM-JJ — Hypothèse — Pourquoi — Question posée par mail ? 
   par l'image `nginx:1.27-alpine`, ajoutée pour l'occasion). nginx relaie `/api/` et `/thumbnails/`
   vers l'API : même origine, pas de CORS, et le front est construit avec `VITE_API_URL=/api`.
   `Host` est transmis avec le port pour que l'API génère des URL de vignettes valides.
-
 - 2026-10-27 — Hooks React génériques (`useDebouncedValue`, `useDelayedFlag`) dans `src/hooks/`,
   dossier absent de l'arborescence cible : `src/lib/` est réservé aux fonctions pures.
 - 2026-10-27 — Workflow Git adapté à la demande de l'humain : chaque branche est poussée sur GitHub
   avec une Pull Request, et la branche distante est **conservée** après fusion (historique visible).
   Seule la branche locale est supprimée.
+- 2026-10-27 — Brouillon et région d'annonces (`aria-live`) fournis par le `Layout` : ils
+  survivent aux changements de page (utile pour « Repartir de cette séance », étape 7).
+- 2026-10-27 — Un seul panneau « Ma séance » est monté à la fois (latéral ≥ 1024 px, tiroir en
+  dessous), choisi par `matchMedia` : deux panneaux cachés par CSS dupliqueraient les champs, leurs
+  identifiants et les annonces.
+- 2026-10-27 — Délais des tests relevés (15 s par test, 3 s pour `findBy…`) : sous charge, jsdom
+  rend lentement les écrans complets ; aucune attente fixe n'a été ajoutée dans les tests.
 
 ## Choix d'interface (et pour qui)
 
@@ -77,11 +88,16 @@ Format : `AAAA-MM-JJ — Hypothèse — Pourquoi — Question posée par mail ? 
   (maquette 00) : sobre, très lisible pour un public peu à l'aise ou malvoyant, contrastes AA vérifiés.
 - 2026-10-26 — Tablette paysage = disposition desktop (catalogue + panneau) ; seule la tablette
   portrait passe le panneau en barre fixe + tiroir (maquettes 02 et 03).
-
 - 2026-10-27 — Cartes : chaque bouton « Ajouter à la séance » porte le titre de la vidéo en texte
   masqué (« Ajouter à la séance : Sophie, coiffeuse à Lyon ») pour que les lecteurs d'écran
   distinguent les boutons ; les puces de filtre sont entièrement cliquables (cible plus grande
   que la seule croix de la maquette).
+- 2026-10-27 — Annule l'entrée précédente sur le texte masqué : le titre est passé dans un
+  `aria-label` (« Ajouter à la séance : … », « Retirer de la séance : … »), car le texte masqué
+  n'est pas lu de la même façon partout (espaces perdus). Le nom commence toujours par le texte
+  visible, pour la commande vocale.
+- 2026-10-27 — Une carte ajoutée montre « ✓ Dans la séance · n° 2 » et un bouton « Retirer » ; c'est
+  le même bouton qui change de libellé, pour que le focus reste en place.
 
 ## Écarts maquettes / CLAUDE.md
 
@@ -90,6 +106,9 @@ Format : `AAAA-MM-JJ — Hypothèse — Pourquoi — Question posée par mail ? 
   pour ne pas perdre le focus après un déplacement (règle focus de `CLAUDE.md`).
 - 2026-10-27 — Badge « 360° » : les vignettes servies par l'API le contiennent déjà ; le badge de
   la maquette n'est ajouté que sur le visuel de remplacement (vidéos sans vignette).
+- 2026-10-27 — Barre tablette portrait : bouton « Voir ma séance » tant que l'enregistrement
+  n'existe pas (maquette : « Voir et enregistrer », à reprendre à l'étape 6). Résumé « 4 vidéos ·
+  33 min » placé en pied de panneau sur tous les écrans (la maquette desktop le met en haut).
 
 ## Laissé de côté volontairement
 
