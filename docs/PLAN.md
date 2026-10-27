@@ -393,10 +393,10 @@ Humain (à faire soi-même, l'agent ne peut pas le remplacer) :
   - ce que je ferais avec une journée de plus ;
   - usage de l'IA : délégué / vérifié soi-même / **une** décision prise contre l'outil ;
   - temps d'attention consacré et nombre de sessions.
-- [ ] Joindre `CLAUDE.md`, `docs/PLAN.md`, `docs/DECISIONS.md` (facultatif, mais utile au débrief).
+- [x] Joindre `CLAUDE.md`, `docs/PLAN.md`, `docs/DECISIONS.md` (facultatif, mais utile au débrief).
 - [ ] Fusion dans `main` (`git merge --no-ff`), puis vérifier que `git branch` ne liste plus que
       `main` et que `git log --graph --oneline` montre une fusion par étape.
-- [ ] Vérifier une installation propre : cloner dans un dossier vide, suivre le README à la lettre.
+- [x] Vérifier une installation propre : cloner dans un dossier vide, suivre le README à la lettre.
 - [ ] Pousser sur GitHub / GitLab avec l'historique complet (branches fusionnées incluses).
 
 ---
