@@ -83,6 +83,10 @@ Maquettes et notes : [`docs/maquettes/`](docs/maquettes/).
   branche et une PR par étape, fusion seulement après mon accord.
 - **Vérifié moi-même** : design de l'application, relecture des PR et des captures tablette, parcours clavier et
   VoiceOver, tests sur tablette émulé
+- **Une décision prise contre l'outil** : à l'étape 8, l'agent avait classé l'absence de lien
+  « Aller à ma séance » en point non corrigé, puisque l'étape demandait de vérifier sans ajouter.
+  Je l'ai fait ajouter : traverser 24 cartes au clavier pour atteindre « Enregistrer la séance »
+  est trop long pour un public pressé.
 
 ## Temps d'attention
 
