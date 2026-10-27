@@ -13,13 +13,14 @@ export const SessionBar = forwardRef<HTMLButtonElement, SessionBarProps>(functio
   ref,
 ) {
   const { draft } = useDraft()
+  const isSaved = draft.savedSessionId !== null
   return (
     <div className="fixed inset-x-0 bottom-0 z-20 flex items-center justify-between gap-4 border-t border-border-subtle bg-surface px-6 py-4 shadow-[0_-4px_16px_rgb(30_39_51/0.08)]">
       <p className="text-xl font-bold">
-        Ma séance <span aria-hidden="true">·</span> {describeDraft(draft)}
+        Ma séance <span aria-hidden="true">·</span> {isSaved ? 'Enregistrée' : describeDraft(draft)}
       </p>
       <Button ref={ref} onClick={onOpen} className="min-h-13 px-7">
-        Voir ma séance
+        {isSaved ? 'Voir la confirmation' : 'Voir et enregistrer'}
       </Button>
     </div>
   )

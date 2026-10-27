@@ -20,10 +20,16 @@ export const VideoCard = forwardRef<HTMLHeadingElement, VideoCardProps>(function
   titleRef,
 ) {
   const titleId = useId()
-  const limitId = useId()
-  const { position, isFull, add, remove } = useSessionEntry(video)
+  const reasonId = useId()
+  const { position, isFull, isLocked, isSaved, add, remove } = useSessionEntry(video)
   const inSession = position !== null
-  const blocked = !inSession && isFull
+  const blocked = isLocked || (!inSession && isFull)
+  // Explication écrite sous le bouton inactif (rien pendant l'envoi, qui ne dure qu'un instant).
+  const reason = isSaved
+    ? 'Séance enregistrée. Pour ajouter des vidéos, préparez une nouvelle séance.'
+    : !isLocked && blocked
+      ? `La séance contient déjà ${MAX_VIDEOS} vidéos.`
+      : null
   // Jamais de code ROME seul : un métier inconnu du référentiel n'est simplement pas affiché.
   const jobLabels = video.jobs.flatMap((code) => references.jobsByCode.get(code)?.label ?? [])
   const audienceLabels = video.audiences.flatMap(
@@ -71,9 +77,9 @@ export const VideoCard = forwardRef<HTMLHeadingElement, VideoCardProps>(function
           )}
           <button
             type="button"
-            onClick={inSession ? remove : blocked ? undefined : add}
+            onClick={blocked ? undefined : inSession ? remove : add}
             aria-disabled={blocked || undefined}
-            aria-describedby={blocked ? limitId : undefined}
+            aria-describedby={reason ? reasonId : undefined}
             // Le titre distingue les boutons pour les lecteurs d'écran ; le nom commence par le
             // texte visible, pour la commande vocale (« Ajouter à la séance »).
             aria-label={
@@ -89,9 +95,9 @@ export const VideoCard = forwardRef<HTMLHeadingElement, VideoCardProps>(function
           >
             {inSession ? 'Retirer' : '+ Ajouter à la séance'}
           </button>
-          {blocked && (
-            <p id={limitId} className="text-base text-ink-muted">
-              La séance contient déjà {MAX_VIDEOS} vidéos.
+          {reason && (
+            <p id={reasonId} className="text-base text-ink-muted">
+              {reason}
             </p>
           )}
         </div>

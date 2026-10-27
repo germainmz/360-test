@@ -10,7 +10,7 @@ interface SessionDrawerProps {
 /**
  * Tiroir qui monte du bas de l'écran (tablette portrait). React Aria gère l'accessibilité de la
  * fenêtre : focus piégé à l'intérieur, `Échap` ou un appui sur le voile pour fermer, et retour
- * du focus sur le bouton « Voir ma séance ».
+ * du focus sur le bouton « Voir et enregistrer ».
  */
 export function SessionDrawer({ isOpen, onOpenChange }: SessionDrawerProps) {
   const headingId = useId()

@@ -10,12 +10,15 @@ interface SessionItemProps {
   count: number
   /** Nom du casque choisi si la vidéo n'est pas compatible avec lui. */
   incompatibleWith: string | null
+  /** Pendant l'enregistrement : boutons inactifs, l'ordre ne doit plus changer. */
+  locked: boolean
   onAction: (action: ItemAction) => void
   registerButton: (action: ItemAction, element: HTMLButtonElement | null) => void
 }
 
 const iconButton =
   'flex size-11 shrink-0 items-center justify-center rounded-lg border-2 text-xl font-bold'
+const inactive = 'cursor-not-allowed border-border-subtle text-border'
 
 /**
  * Une vidéo de la séance : numéro, miniature, titre, durée, et boutons « Monter », « Descendre »,
@@ -28,11 +31,12 @@ export function SessionItem({
   index,
   count,
   incompatibleWith,
+  locked,
   onAction,
   registerButton,
 }: SessionItemProps) {
-  const isFirst = index === 0
-  const isLast = index === count - 1
+  const upInactive = locked || index === 0
+  const downInactive = locked || index === count - 1
   const quoted = `« ${video.title} »`
 
   return (
@@ -61,9 +65,9 @@ export function SessionItem({
             type="button"
             ref={(element) => registerButton('up', element)}
             onClick={() => onAction('up')}
-            aria-disabled={isFirst || undefined}
+            aria-disabled={upInactive || undefined}
             aria-label={`Monter ${quoted}`}
-            className={`${iconButton} ${isFirst ? 'cursor-not-allowed border-border-subtle text-border' : 'border-action text-action hover:bg-action-subtle'}`}
+            className={`${iconButton} ${upInactive ? inactive : 'border-action text-action hover:bg-action-subtle'}`}
           >
             <span aria-hidden="true">↑</span>
           </button>
@@ -71,9 +75,9 @@ export function SessionItem({
             type="button"
             ref={(element) => registerButton('down', element)}
             onClick={() => onAction('down')}
-            aria-disabled={isLast || undefined}
+            aria-disabled={downInactive || undefined}
             aria-label={`Descendre ${quoted}`}
-            className={`${iconButton} ${isLast ? 'cursor-not-allowed border-border-subtle text-border' : 'border-action text-action hover:bg-action-subtle'}`}
+            className={`${iconButton} ${downInactive ? inactive : 'border-action text-action hover:bg-action-subtle'}`}
           >
             <span aria-hidden="true">↓</span>
           </button>
@@ -81,8 +85,9 @@ export function SessionItem({
             type="button"
             ref={(element) => registerButton('remove', element)}
             onClick={() => onAction('remove')}
+            aria-disabled={locked || undefined}
             aria-label={`Retirer ${quoted}`}
-            className={`${iconButton} border-border text-ink hover:bg-surface-muted`}
+            className={`${iconButton} ${locked ? inactive : 'border-border text-ink hover:bg-surface-muted'}`}
           >
             <span aria-hidden="true">✕</span>
           </button>
