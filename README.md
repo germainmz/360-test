@@ -1,89 +1,95 @@
-# Exercice technique — développeur·se front-end / UI (React / TypeScript)
+# Métiers 360 — Préparer une séance
 
-## Le cadre
+Petite application pour trouver des vidéos 360°, composer une séance (choisir, ordonner, nommer) et
+l'enregistrer via l'API simulée. React 18, TypeScript strict, Vite, React Router 7, TanStack Query,
+Tailwind, React Aria Components.
 
-- **Effort : une demi-journée de votre attention, pas plus.** Le temps où un agent travaille seul ne
-  compte pas ; comptez celui que vous passez à lire, cadrer, guider, relire et tester. Nous ne cherchons
-  pas un rendu exhaustif. S'arrêter à temps et expliquer ce qui manque fait partie de l'exercice.
-- **Délai de rendu : 7 jours** après réception du sujet, à organiser comme vous le souhaitez.
-- **La spécification est volontairement incomplète.** C'est notre quotidien : le besoin arrive rarement
-  sous une forme définitive. Vous pouvez nous poser des questions par mail à tout moment
-  (réponse sous une demi-journée ouvrée ; pour les questions posées les 22 et 23 octobre, réponse le
-  lundi 26). Vous pouvez aussi trancher vous-même : notez alors l'hypothèse prise.
-- **Les assistants IA sont autorisés**, et même bienvenus : c'est notre façon de travailler. Dites-nous
-  simplement comment vous les avez utilisés et ce que vous avez vérifié par vous-même.
-- Ce code ne sera jamais utilisé en production. Il sert uniquement de support au débrief.
+![Préparer une séance, maquette desktop](docs/maquettes/01-preparer-desktop.png)
 
-## Le contexte
+## Lancer le projet
 
-Métiers 360 propose un catalogue de vidéos immersives 360° qui présentent des métiers de l'intérieur.
-Chaque vidéo est rattachée à un ou plusieurs métiers du **référentiel ROME 4.0** de France Travail
-(code, intitulé, grand domaine).
+Avec Docker (API + application sur http://localhost:8080) :
 
-Les vidéos sont utilisées par des **conseiller·es France Travail, des enseignant·es, des
-éducateur·ices**. Avant une séance avec un groupe, ils et elles choisissent les vidéos à faire
-découvrir, puis les envoient sur les casques de réalité virtuelle. Ils sont souvent pressés, pas
-toujours à l'aise avec le numérique, et préparent parfois la séance quelques minutes avant, sur
-une tablette, devant le groupe.
+```bash
+docker compose up --build
+```
 
-## Ce que nous vous fournissons
+Sans Docker (Node ≥ 20, application sur http://localhost:5173) :
 
-Une archive de démarrage, à versionner vous-même dès le début, contenant :
+```bash
+npm start
+cd app && npm install && npm run dev
+```
 
-- un **serveur d'API simulé** (catalogue d'environ 200 vidéos, métiers ROME, modèles de casques) et
-  sa documentation ;
-- les données de chaque vidéo : titre, description, métiers ROME associés, durée, public conseillé,
-  vignette, compatibilité avec les modèles de casques.
+Vérifications :
 
-Le serveur simulé se comporte comme une vraie API : temps de réponse variables et erreurs
-occasionnelles.
+```bash
+cd app && npm run typecheck && npm run lint && npm test
+```
 
-## Ce que nous vous demandons
+## Trois hypothèses qui ont le plus pesé
 
-Une petite application qui permet de **préparer une séance** :
+1. **On cherche un métier comme on le dit, pas par son code.** L'API ne cherche que dans les
+   titres ; la saisie « garagiste » est rapprochée côté client des intitulés et appellations ROME
+   et propose « Voir les vidéos : Mécanicien / Mécanicienne automobile ». Pas de bascule
+   automatique : ce sont des suggestions.
+2. **Le casque est facultatif, l'incompatibilité est signalée, jamais bloquante.** L'API ne
+   vérifie rien ; une vidéo incompatible est marquée dans la séance, avec un raccourci pour
+   n'afficher que les vidéos compatibles.
+3. **Le brouillon ne se perd jamais, et une séance ne s'enregistre pas deux fois.** Brouillon
+   dans `localStorage` ; 1 réessai automatique sur erreur serveur (l'API échoue avant de créer) ;
+   après succès, le brouillon est figé jusqu'à « Préparer une nouvelle séance ».
 
-1. **Trouver des vidéos** dans le catalogue (recherche et filtres que vous jugez utiles pour ce public).
-2. **Composer la séance** : sélectionner des vidéos, les ordonner, la nommer.
-3. **Enregistrer la séance** via l'API.
+Toutes les hypothèses : [`docs/DECISIONS.md`](docs/DECISIONS.md).
 
-Stack attendue : **React 18 et TypeScript en mode strict, avec Vite.** Le routage, la bibliothèque de
-composants, la gestion d'état et le style sont à votre choix, à condition de l'argumenter. Pour
-information, nos applications utilisent Ant Design et Tailwind selon les projets.
+## Choix d'interface, et pour qui
 
-Si vous connaissez **Remix** (notre application utilisateur est en Remix 2) ou React Router 7, vous
-pouvez l'utiliser : c'est un plus, pas une attente.
+Pour des conseiller·es et enseignant·es pressé·es, pas toujours à l'aise avec le numérique, qui
+préparent parfois la séance sur une tablette devant le groupe.
 
-Nous attacherons de l'importance :
+- **Tout sur un écran.** Catalogue et panneau « Ma séance » côte à côte (ordinateur, tablette
+  paysage) ; en tablette portrait, une barre fixe « Ma séance · 4 vidéos · 33 min » ouvre un tiroir.
+  Le résumé reste toujours visible pendant la recherche.
+- **Rien de fin ni de caché.** Cibles de 44 px, boutons ↑ ↓ ✕ plutôt que glisser-déposer, états
+  écrits en toutes lettres (« ✓ Dans la séance · n° 2 »), police très lisible (Atkinson
+  Hyperlegible).
+- **Chaque attente et chaque erreur se rattrapent sans ressaisie.** Squelettes, message rassurant
+  après 2 s, « Réessayer » qui garde recherche et filtres, erreurs sous le champ concerné.
+  Accessibilité vérifiée par axe (tests + vrai navigateur), au clavier, à 320 px et au zoom 200 %.
 
-- aux **choix d'interface**, justifiés par l'usage plutôt que par le goût ;
-- à l'**accessibilité** (navigation au clavier, focus, contrastes, lecteurs d'écran : référentiels
-  WCAG / RGAA) ;
-- aux **états de l'interface** : chargement, liste vide, erreur ;
-- au rendu sur **tablette** autant que sur ordinateur.
+Maquettes et notes : [`docs/maquettes/`](docs/maquettes/).
 
-Aucune maquette n'est fournie : c'est à vous de proposer. Un croquis ou une capture Figma dans le
-README est bienvenu, sans obligation.
+## Laissé de côté, volontairement
 
-## À rendre
+- **Glisser-déposer** : les boutons suffisent et marchent au clavier et au lecteur d'écran.
+- **Filtres à plusieurs valeurs** : l'API n'accepte qu'une valeur par filtre.
+- **Modifier une séance enregistrée** : l'API ne le permet pas ; « Repartir de cette séance »
+  en fait une copie.
+- **Doublon si la page est rechargée pendant l'envoi** : cas rare, l'API n'a pas de clé
+  d'idempotence pour l'éviter.
 
-- Un lien vers un dépôt Git (GitLab, GitHub) ou une archive, avec l'historique des commits.
-- Un `README` qui remplace celui de l'archive (une copie de ce sujet). Nous le lisons avant le débrief
-  pour préparer nos questions : écrivez-le pour quelqu'un qui le découvre et dispose de cinq minutes.
-  La place est volontairement limitée, à vous de choisir ce qui mérite d'y figurer :
-  - comment lancer le projet (les commandes, sans commentaire) ;
-  - les **trois** hypothèses qui ont le plus pesé, là où la spécification était muette ;
-  - vos **deux ou trois** principaux choix d'interface, et pour qui ils sont faits ;
-  - ce que vous avez volontairement laissé de côté, et pourquoi ;
-  - ce que vous feriez avec une journée de plus ;
-  - comment vous avez utilisé l'IA : ce que vous avez délégué, ce que vous avez vérifié vous-même, et
-    **une** décision prise contre une proposition de l'outil, la plus marquante ;
-  - le temps d'attention que vous y avez consacré, et en combien de sessions.
-- Si vous avez écrit des fichiers de contexte, des spécifications ou des consignes pour un agent IA
-  (`CLAUDE.md`, `AGENTS.md`, prompts…), vous pouvez les joindre. C'est facultatif.
+## Avec une journée de plus
 
-## La suite
+- Faire tourner en CI les parcours que j'ai vérifiés à la main dans un vrai navigateur
+  (Playwright + axe sur l'API simulée).
+- Tester avec deux ou trois utilisateur·ices réel·les sur tablette, avant d'ajouter quoi que ce
+  soit.
+- Filtre par durée totale (« une séance de 30 min »), demande probable de ce public.
 
-Un débrief d'une heure en visio : vous nous présentez vos choix, puis nous faisons évoluer le besoin
-ensemble, en direct, sur votre code. Pas de piège : nous voulons voir comment vous raisonnez sur
-un sujet que vous connaissez déjà bien. Pendant cette partie, vous pouvez utiliser vos outils
-habituels, assistants IA compris, en partageant votre écran.
+## Usage de l'IA
+
+> ✍️ **À compléter par l'humain.** Proposition de base, à réécrire avec vos mots.
+
+- **Délégué** : maquettes (Claude Design), puis le code, les tests et la documentation à Claude
+  Code, étape par étape, cadré par [`CLAUDE.md`](CLAUDE.md) et [`docs/PLAN.md`](docs/PLAN.md) : une
+  branche et une PR par étape, fusion seulement après mon accord.
+- **Vérifié moi-même** : ✍️ (ex. : relecture des PR et des captures tablette, parcours clavier et
+  VoiceOver, tests sur tablette…)
+- **Une décision prise contre l'outil** : ✍️ (piste : l'agent avait classé le lien « Aller à ma
+  séance » en point non corrigé, puisque l'étape 8 demandait de vérifier sans ajouter ; je l'ai
+  fait ajouter, car traverser 24 cartes au clavier pour enregistrer est trop long pour ce public.)
+
+## Temps d'attention
+
+✍️ **À compléter** : X h, en N sessions (du 25 au 27 octobre 2026). Historique : une branche
+fusionnée par étape (`git log --graph --oneline`).
