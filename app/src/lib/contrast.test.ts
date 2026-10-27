@@ -47,6 +47,19 @@ const pairs: [foreground: string, background: string, minimum: number][] = [
   ['border', 'surface', NON_TEXT],
   ['focus', 'paper', NON_TEXT],
   ['focus', 'surface', NON_TEXT],
+  // États ajoutés aux étapes 5 à 7 : boutons bloqués ou en cours, confirmation, séance affichée.
+  ['ink', 'surface-muted', TEXT],
+  ['ink', 'success-subtle', TEXT],
+  ['ink', 'action-subtle', TEXT],
+  ['ink-muted', 'action-subtle', TEXT],
+  ['ink', 'warning-subtle', TEXT],
+  ['border', 'surface-muted', NON_TEXT],
+  ['danger', 'danger-subtle', NON_TEXT],
+  ['focus', 'action-subtle', NON_TEXT],
+  ['focus', 'success-subtle', NON_TEXT],
+  ['focus', 'danger-subtle', NON_TEXT],
+  ['focus', 'warning-subtle', NON_TEXT],
+  ['action', 'success-subtle', NON_TEXT],
 ]
 
 // D'abord le calcul lui-même, sur des valeurs connues, pour pouvoir lui faire confiance ensuite.
