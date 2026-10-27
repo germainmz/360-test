@@ -88,6 +88,26 @@ describe('draftReducer', () => {
     expect(draftReducer(draft, { type: 'reset' })).toEqual(emptyDraft)
   })
 
+  it('charge une copie de séance, sans doublon ni dépassement, même après un enregistrement', () => {
+    const saved = draftReducer(draftWith(a), { type: 'saved', sessionId: 'ses_004' })
+    const loaded = draftReducer(saved, {
+      type: 'load',
+      name: 'Atelier',
+      headsetId: 'pico-4',
+      videos: [b, c, b],
+    })
+    expect(loaded).toEqual({
+      name: 'Atelier',
+      headsetId: 'pico-4',
+      videos: [b, c],
+      savedSessionId: null,
+    })
+    const many = Array.from({ length: MAX_VIDEOS + 3 }, (_, i) => makeVideo(i + 1))
+    expect(
+      draftReducer(emptyDraft, { type: 'load', name: '', headsetId: null, videos: many }).videos,
+    ).toHaveLength(MAX_VIDEOS)
+  })
+
   it('bloque toute modification une fois la séance enregistrée, sauf la remise à zéro', () => {
     const saved = draftReducer(draftWith(a, b), { type: 'saved', sessionId: 'ses_004' })
     expect(saved.savedSessionId).toBe('ses_004')

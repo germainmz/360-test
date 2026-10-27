@@ -38,7 +38,7 @@ export const SessionConfirmation = forwardRef<HTMLHeadingElement, SessionConfirm
           <Link to="/seances" onClick={onClose} className={`${buttonStyles.primary} w-full`}>
             Voir mes séances
           </Link>
-          <Button variant="secondary" onClick={startNew} className="w-full">
+          <Button variant="secondary" onClick={() => startNew()} className="w-full">
             Préparer une nouvelle séance
           </Button>
         </div>

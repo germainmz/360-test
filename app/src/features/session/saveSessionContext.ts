@@ -1,5 +1,9 @@
 import { createContext, useContext } from 'react'
+import type { Draft } from './draftReducer'
 import type { FieldErrors } from './validateDraft'
+
+/** Contenu d'une séance à recopier dans le brouillon (« Repartir de cette séance »). */
+export type DraftContent = Pick<Draft, 'name' | 'headsetId' | 'videos'>
 
 export interface SaveSessionContextValue {
   isSaving: boolean
@@ -10,8 +14,11 @@ export interface SaveSessionContextValue {
   /** Change à chaque refus : le panneau place alors le focus sur le premier champ en erreur. */
   errorFocusRequest: number
   save: () => void
-  /** « Préparer une nouvelle séance » : seul moment où le brouillon est vidé. */
-  startNew: () => void
+  /**
+   * Remplace le brouillon : vide (« Préparer une nouvelle séance ») ou copie d'une séance
+   * enregistrée. Ce sont les seuls moments où le brouillon courant est abandonné.
+   */
+  startNew: (from?: DraftContent) => void
 }
 
 export const SaveSessionContext = createContext<SaveSessionContextValue | null>(null)

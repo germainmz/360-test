@@ -27,6 +27,8 @@ export type DraftAction =
   | { type: 'rename'; name: string }
   | { type: 'setHeadset'; headsetId: string | null }
   | { type: 'saved'; sessionId: string }
+  /** « Repartir de cette séance » : remplace tout le brouillon par une copie d'une séance. */
+  | { type: 'load'; name: string; headsetId: string | null; videos: Video[] }
   | { type: 'reset' }
 
 export const emptyDraft: Draft = { name: '', headsetId: null, videos: [], savedSessionId: null }
@@ -50,8 +52,9 @@ function indexOf(draft: Draft, videoId: string): number {
  * impossible renvoie le brouillon inchangé (même objet), sans erreur.
  */
 export function draftReducer(draft: Draft, action: DraftAction): Draft {
-  // Séance enregistrée : seul « Préparer une nouvelle séance » (reset) la quitte.
-  if (draft.savedSessionId !== null && action.type !== 'reset') return draft
+  // Séance enregistrée : on ne la quitte qu'en repartant d'un brouillon neuf (reset ou load).
+  if (draft.savedSessionId !== null && action.type !== 'reset' && action.type !== 'load')
+    return draft
   switch (action.type) {
     case 'add':
       if (draft.videos.length >= MAX_VIDEOS || indexOf(draft, action.video.id) !== -1) return draft
@@ -77,6 +80,13 @@ export function draftReducer(draft: Draft, action: DraftAction): Draft {
         : { ...draft, headsetId: action.headsetId }
     case 'saved':
       return { ...draft, savedSessionId: action.sessionId }
+    case 'load': {
+      const seen = new Set<string>()
+      const videos = action.videos
+        .filter((video) => !seen.has(video.id) && seen.add(video.id))
+        .slice(0, MAX_VIDEOS)
+      return { name: action.name, headsetId: action.headsetId, videos, savedSessionId: null }
+    }
     case 'reset':
       return emptyDraft
   }

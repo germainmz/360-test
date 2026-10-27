@@ -4,7 +4,7 @@ import { useCreateSession } from '../../api/queries'
 import { useAnnounce } from '../../components/announcerContext'
 import { useDraft } from './draftContext'
 import type { Draft } from './draftReducer'
-import { SaveSessionContext } from './saveSessionContext'
+import { SaveSessionContext, type DraftContent } from './saveSessionContext'
 import { validateDraft, type FieldErrors, type SessionField } from './validateDraft'
 
 const SESSION_FIELDS: SessionField[] = ['name', 'video_ids', 'headset_id']
@@ -70,11 +70,15 @@ export function SaveSessionProvider({ children }: { children: ReactNode }) {
     )
   }
 
-  function startNew() {
-    dispatch({ type: 'reset' })
+  function startNew(from?: DraftContent) {
+    dispatch(from ? { type: 'load', ...from } : { type: 'reset' })
     createSession.reset()
     setRejection(null)
-    announce('Nouvelle séance : le brouillon est vide.')
+    announce(
+      from
+        ? `Copie de « ${from.name} » prête dans « Préparer une séance ».`
+        : 'Nouvelle séance : le brouillon est vide.',
+    )
   }
 
   // Un message disparaît dès que le champ concerné a été modifié.
