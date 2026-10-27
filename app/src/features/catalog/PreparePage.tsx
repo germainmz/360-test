@@ -1,5 +1,6 @@
 import { useId, useState } from 'react'
 import { usePageTitle } from '../../components/usePageTitle'
+import { useFocusOnNavigation } from '../../hooks/useFocusOnNavigation'
 import { useMediaQuery } from '../../hooks/useMediaQuery'
 import { SessionBar } from '../session/SessionBar'
 import { SessionDrawer } from '../session/SessionDrawer'
@@ -18,11 +19,18 @@ export function PreparePage() {
   const isWide = useMediaQuery(WIDE_SCREEN, true)
   const [drawerOpen, setDrawerOpen] = useState(false)
   const panelHeadingId = useId()
+  const headingRef = useFocusOnNavigation<HTMLHeadingElement>('prepare')
 
   return (
     <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(22rem,26rem)] lg:items-start lg:gap-8">
       <div className={`flex min-w-0 flex-col gap-6 ${isWide ? '' : 'pb-28'}`}>
-        <h1 className="text-[32px] leading-10 font-bold">Préparer une séance</h1>
+        <h1
+          ref={headingRef}
+          tabIndex={-1}
+          className="text-[32px] leading-10 font-bold outline-offset-4"
+        >
+          Préparer une séance
+        </h1>
         <Catalog />
       </div>
       {isWide ? (

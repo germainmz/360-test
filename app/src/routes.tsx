@@ -12,8 +12,12 @@ export const routes: RouteObject[] = [
     element: <Layout />,
     children: [
       { index: true, element: <PreparePage /> },
-      { path: 'seances', element: <SessionsPage /> },
-      { path: 'seances/:id', element: <SessionDetailPage /> },
+      // Liste toujours là (sauf en tablette portrait) ; le détail s'affiche à côté.
+      {
+        path: 'seances',
+        element: <SessionsPage />,
+        children: [{ path: ':id', element: <SessionDetailPage /> }],
+      },
       // Toute autre adresse : page 404.
       { path: '*', element: <NotFoundPage /> },
     ],
