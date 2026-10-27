@@ -294,7 +294,7 @@ utilisable au clavier ; lisible en 768 × 1024.
 - [x] Tests : reducer complet ; parcours clavier « ajouter 3 vidéos, déplacer la 3e en 1re, retirer
       la 2e » ; persistance après rechargement.
 
-- [ ] Vérifications vertes, branche relue par l'humain, puis fusion dans `main` (`git merge --no-ff`) et suppression de la branche.
+- [x] Vérifications vertes, branche relue par l'humain, puis fusion dans `main` (`git merge --no-ff`) et suppression de la branche.
 
 **Critères d'acceptation** : recharger la page conserve le brouillon ; tout le parcours se fait au
 clavier seul ; en 768 × 1024 le catalogue reste utilisable avec la barre de séance visible.
