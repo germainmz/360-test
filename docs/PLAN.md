@@ -311,20 +311,20 @@ brouillons en parallèle.
 **Prérequis** : étape 5.
 **Objectif** : envoyer la séance à l'API de façon fiable malgré 25 % d'erreurs serveur.
 
-- [ ] Validation côté client avant envoi (mêmes règles que l'API : nom non vide après trim,
+- [x] Validation côté client avant envoi (mêmes règles que l'API : nom non vide après trim,
       ≤ 120 car., 1 à 30 vidéos) ; messages sous le champ, liés par `aria-describedby`,
       focus sur le premier champ en erreur.
-- [ ] `POST /sessions` avec `{ name, video_ids, headset_id }` dans l'ordre du brouillon.
-- [ ] Pendant l'envoi : bouton désactivé, libellé « Enregistrement… », brouillon non modifiable
+- [x] `POST /sessions` avec `{ name, video_ids, headset_id }` dans l'ordre du brouillon.
+- [x] Pendant l'envoi : bouton désactivé, libellé « Enregistrement… », brouillon non modifiable
       (ou modifications bloquées) pour éviter un décalage avec ce qui est envoyé.
-- [ ] Erreur 5xx ou réseau : **1 nouvel essai automatique** (sans risque de doublon : l'API échoue
+- [x] Erreur 5xx ou réseau : **1 nouvel essai automatique** (sans risque de doublon : l'API échoue
       avant création), puis message « L'enregistrement a échoué. Votre séance est conservée. »
       + bouton « Réessayer ». Le brouillon n'est **jamais** vidé en cas d'échec.
-- [ ] Erreur 422 : afficher chaque `details[].message` sous le champ `field` correspondant.
-- [ ] Succès : confirmation explicite (`role="status"`) avec nom, nombre de vidéos et durée totale,
+- [x] Erreur 422 : afficher chaque `details[].message` sous le champ `field` correspondant.
+- [x] Succès : confirmation explicite (`role="status"`) avec nom, nombre de vidéos et durée totale,
       lien « Voir mes séances » (si étape 7) et bouton « Préparer une nouvelle séance » qui vide le
       brouillon. Le brouillon est vidé seulement à ce moment-là.
-- [ ] Tests : succès, 500 puis succès au réessai, 422 mappé sur le bon champ, brouillon conservé.
+- [x] Tests : succès, 500 puis succès au réessai, 422 mappé sur le bon champ, brouillon conservé.
 
 - [ ] Vérifications vertes, branche relue par l'humain, puis fusion dans `main` (`git merge --no-ff`) et suppression de la branche.
 
