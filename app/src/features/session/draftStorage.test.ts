@@ -7,7 +7,12 @@ import { parseDraft } from './draftStorage'
 
 describe('parseDraft', () => {
   it('relit un brouillon valide', () => {
-    const draft = { name: 'Atelier', headsetId: 'pico-4', videos: [makeVideo(1)] }
+    const draft = {
+      name: 'Atelier',
+      headsetId: 'pico-4',
+      videos: [makeVideo(1)],
+      savedSessionId: 'ses_004',
+    }
     expect(parseDraft(JSON.stringify(draft))).toEqual(draft)
   })
 
@@ -30,6 +35,7 @@ describe('parseDraft', () => {
       name: '',
       headsetId: 'pico-4',
       videos: [makeVideo(1), makeVideo(2)],
+      savedSessionId: null,
     })
   })
 

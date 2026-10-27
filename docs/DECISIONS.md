@@ -39,6 +39,16 @@ Format : `AAAA-MM-JJ — Hypothèse — Pourquoi — Question posée par mail ? 
 - 2026-10-27 — Casque choisi dans le panneau : chaque vidéo incompatible est signalée (icône +
   texte), un résumé compte les vidéos concernées et propose « Afficher seulement les vidéos
   compatibles », qui pose le filtre Casque du catalogue. Rien n'est bloqué — non.
+- 2026-10-27 — Enregistrement : le nom est envoyé sans les espaces autour, mais le brouillon garde
+  la saisie telle quelle. Une séance refusée (422) n'est pas réessayée et n'affiche pas
+  « Réessayer » : seul le champ concerné l'est. Un refus sans champ reconnu est traité comme un
+  échec (message + « Réessayer ») — non.
+- 2026-10-27 — Une fois enregistrée, la séance reste affichée en confirmation et le brouillon est
+  **figé** (reducer + boutons inactifs avec explication) jusqu'à « Préparer une nouvelle séance » :
+  une modification après coup ne serait pas enregistrée, et ce verrou persiste au rechargement,
+  ce qui évite de réenregistrer la même séance en double — non.
+- 2026-10-27 — Un message d'erreur sous un champ disparaît dès que ce champ est modifié ; il n'est
+  pas recalculé à la frappe (on ne signale pas « nom obligatoire » pendant qu'on l'efface) — non.
 
 ## Choix techniques
 
@@ -81,6 +91,10 @@ Format : `AAAA-MM-JJ — Hypothèse — Pourquoi — Question posée par mail ? 
   identifiants et les annonces.
 - 2026-10-27 — Délais des tests relevés (15 s par test, 3 s pour `findBy…`) : sous charge, jsdom
   rend lentement les écrans complets ; aucune attente fixe n'a été ajoutée dans les tests.
+- 2026-10-27 — Enregistrement géré par un `SaveSessionProvider` placé dans le `Layout`, à côté du
+  brouillon : fermer le tiroir pendant l'envoi ne perd ni la réponse ni le message d'échec.
+  Réessai automatique unique (`shouldRetrySave`, délai d'1 s de TanStack Query) réservé aux
+  erreurs 5xx et réseau.
 
 ## Choix d'interface (et pour qui)
 
@@ -109,10 +123,16 @@ Format : `AAAA-MM-JJ — Hypothèse — Pourquoi — Question posée par mail ? 
 - 2026-10-27 — Barre tablette portrait : bouton « Voir ma séance » tant que l'enregistrement
   n'existe pas (maquette : « Voir et enregistrer », à reprendre à l'étape 6). Résumé « 4 vidéos ·
   33 min » placé en pied de panneau sur tous les écrans (la maquette desktop le met en haut).
+- 2026-10-27 — Étape 6 : le bouton de la barre devient « Voir et enregistrer » comme sur la
+  maquette (« Voir la confirmation » une fois la séance enregistrée). Pendant l'envoi, le bouton
+  reste focalisable (`aria-disabled`) et passe par « Enregistrement… » puis « Réessayer » si
+  besoin : le focus ne saute pas.
 
 ## Laissé de côté volontairement
 
--
+- 2026-10-27 — Rechargement de la page **pendant** un envoi : si le serveur a créé la séance,
+  le brouillon ne le sait pas et un nouvel « Enregistrer » créerait un doublon. Cas rare (envoi
+  de 0,2 à 4,5 s) ; l'API n'offre pas de clé d'idempotence pour l'éviter.
 
 ## Accessibilité : points connus non corrigés
 

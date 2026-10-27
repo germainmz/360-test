@@ -166,7 +166,7 @@ describe('Tablette portrait', () => {
 
     expect(screen.queryByRole('complementary')).toBeNull()
     expect(screen.getByText(/2 vidéos · 15 min/)).toBeVisible()
-    const open = screen.getByRole('button', { name: 'Voir ma séance' })
+    const open = screen.getByRole('button', { name: 'Voir et enregistrer' })
     await user.click(open)
 
     const dialog = await screen.findByRole('dialog', { name: 'Ma séance' })

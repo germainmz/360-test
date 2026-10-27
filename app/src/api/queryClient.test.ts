@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { ApiError } from './ApiError'
-import { shouldRetryRead } from './queryClient'
+import { shouldRetryRead, shouldRetrySave } from './queryClient'
 
 // Règle de réessai automatique des lectures : utile pour les pannes passagères de l'API,
 // inutile pour une erreur de la requête (une page introuvable le restera).
@@ -19,5 +19,18 @@ describe('shouldRetryRead', () => {
 
   it('ne réessaie pas une erreur 4xx', () => {
     expect(shouldRetryRead(0, notFound)).toBe(false)
+  })
+})
+
+describe('shouldRetrySave', () => {
+  it('réessaie une seule fois une erreur serveur ou réseau', () => {
+    expect(shouldRetrySave(0, serverError)).toBe(true)
+    expect(shouldRetrySave(0, networkError)).toBe(true)
+    expect(shouldRetrySave(1, serverError)).toBe(false)
+  })
+
+  it('ne réessaie pas une séance refusée (422)', () => {
+    const invalid = new ApiError('client', 422, { error: 'validation_error' })
+    expect(shouldRetrySave(0, invalid)).toBe(false)
   })
 })
