@@ -368,7 +368,7 @@ Agent :
 - [x] Zoom 200 % et largeur 320 px : pas de perte de contenu.
 - [x] Liste des points non corrigés dans `docs/DECISIONS.md`.
 - [x] Un commit par correction (`fix(a11y): …`), pour que chaque correction soit lisible dans l'historique.
-- [ ] Après les vérifications humaines ci-dessous : fusion dans `main` (`git merge --no-ff`) et
+- [x] Après les vérifications humaines ci-dessous : fusion dans `main` (`git merge --no-ff`) et
       suppression de la branche.
 
 Humain (à faire soi-même, l'agent ne peut pas le remplacer) :
