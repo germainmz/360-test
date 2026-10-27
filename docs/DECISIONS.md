@@ -152,7 +152,22 @@ Format : `AAAA-MM-JJ — Hypothèse — Pourquoi — Question posée par mail ? 
 
 ## Accessibilité : points connus non corrigés
 
--
+Passe de l'étape 8 (2026-10-27) : axe-core 4.10 dans un vrai Chromium (contrastes compris) sur tous
+les écrans, en 1440 × 900, 1024 × 768, 768 × 1024, 320 × 640 et 640 × 450 (1280 px zoomé à 200 %).
+Corrigé : débordement à 320 px (en-tête, détail d'une séance) et contraste des résultats estompés.
+
+- 2026-10-27 — **Suggestions de recherche ouvertes** : React Aria masque le reste de la page aux
+  lecteurs d'écran (`aria-hidden`) tant que la liste est ouverte, mais ses éléments restent
+  focusables (règle axe `aria-hidden-focus`). Comportement interne du hook `useComboBox`, non
+  réglable. Pas de piège réel : Tab ferme la liste, et tout redevient accessible (vérifié).
+- 2026-10-27 — **Atteindre « Ma séance » au clavier** (≥ 1024 px) : le panneau vient après le
+  catalogue dans l'ordre de lecture ; il faut traverser les cartes (24 par page) pour atteindre
+  « Enregistrer la séance ». Ordre logique, mais long : un second lien d'évitement « Aller à ma
+  séance » serait une amélioration.
+- 2026-10-27 — **320 px** : la barre « Ma séance » occupe trois lignes et le tiroir laisse peu de
+  place au-dessus du clavier virtuel ; tout reste accessible en faisant défiler.
+- 2026-10-27 — Les **annonces vocales** (ajout, déplacement, enregistrement) sont testées dans le
+  DOM, pas avec un vrai lecteur d'écran : à confirmer par le parcours VoiceOver (étape 8, humain).
 
 ## Usage de l'IA
 
