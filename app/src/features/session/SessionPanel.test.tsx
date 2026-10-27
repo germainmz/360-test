@@ -171,6 +171,8 @@ describe('Tablette portrait', () => {
 
     const dialog = await screen.findByRole('dialog', { name: 'Ma séance' })
     expect(within(dialog).getAllByRole('listitem')).toHaveLength(2)
+    // Le tiroir est rendu à la fin de <body> (portail) : on analyse toute la page.
+    expect((await axe(document.body)).violations).toEqual([])
     await user.keyboard('{Escape}')
 
     await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull())

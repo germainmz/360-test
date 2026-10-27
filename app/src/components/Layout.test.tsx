@@ -44,4 +44,10 @@ describe('Layout', () => {
     const results = await axe(container)
     expect(results.violations).toEqual([])
   })
+
+  it('ne présente aucune violation axe sur la page 404', async () => {
+    const { container } = renderApp('/nimporte-quoi')
+    await screen.findByRole('heading', { name: 'Page introuvable' })
+    expect((await axe(container)).violations).toEqual([])
+  })
 })
