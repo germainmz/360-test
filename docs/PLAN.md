@@ -348,7 +348,7 @@ récupérable sans ressaisie ; aucune séance en double dans `GET /sessions`.
 - [x] Action « Repartir de cette séance » : charge la séance dans le brouillon (après confirmation
       si le brouillon courant n'est pas vide).
 
-- [ ] Vérifications vertes, branche relue par l'humain, puis fusion dans `main` (`git merge --no-ff`) et suppression de la branche.
+- [x] Vérifications vertes, branche relue par l'humain, puis fusion dans `main` (`git merge --no-ff`) et suppression de la branche.
 
 **Critère d'acceptation** : une séance enregistrée à l'étape 6 apparaît en tête de liste.
 
