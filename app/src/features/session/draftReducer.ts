@@ -11,6 +11,11 @@ export interface Draft {
   name: string
   headsetId: string | null
   videos: Video[]
+  /**
+   * Identifiant de la séance une fois enregistrée. Le brouillon reste alors affiché en
+   * confirmation mais n'est plus modifiable : une modification ne serait pas enregistrée.
+   */
+  savedSessionId: string | null
 }
 
 export type DraftAction =
@@ -21,9 +26,10 @@ export type DraftAction =
   | { type: 'moveTo'; videoId: string; index: number }
   | { type: 'rename'; name: string }
   | { type: 'setHeadset'; headsetId: string | null }
+  | { type: 'saved'; sessionId: string }
   | { type: 'reset' }
 
-export const emptyDraft: Draft = { name: '', headsetId: null, videos: [] }
+export const emptyDraft: Draft = { name: '', headsetId: null, videos: [], savedSessionId: null }
 
 function move(videos: Video[], videoId: string, target: number): Video[] {
   const from = videos.findIndex((video) => video.id === videoId)
@@ -44,6 +50,8 @@ function indexOf(draft: Draft, videoId: string): number {
  * impossible renvoie le brouillon inchangé (même objet), sans erreur.
  */
 export function draftReducer(draft: Draft, action: DraftAction): Draft {
+  // Séance enregistrée : seul « Préparer une nouvelle séance » (reset) la quitte.
+  if (draft.savedSessionId !== null && action.type !== 'reset') return draft
   switch (action.type) {
     case 'add':
       if (draft.videos.length >= MAX_VIDEOS || indexOf(draft, action.video.id) !== -1) return draft
@@ -67,6 +75,8 @@ export function draftReducer(draft: Draft, action: DraftAction): Draft {
       return action.headsetId === draft.headsetId
         ? draft
         : { ...draft, headsetId: action.headsetId }
+    case 'saved':
+      return { ...draft, savedSessionId: action.sessionId }
     case 'reset':
       return emptyDraft
   }

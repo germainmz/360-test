@@ -51,6 +51,7 @@ export function parseDraft(raw: string | null): Draft {
     name: typeof value.name === 'string' ? value.name : '',
     headsetId: typeof value.headsetId === 'string' ? value.headsetId : null,
     videos,
+    savedSessionId: typeof value.savedSessionId === 'string' ? value.savedSessionId : null,
   }
 }
 

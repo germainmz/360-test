@@ -7,6 +7,7 @@ import {
   MAX_VIDEOS,
   totalDurationSeconds,
   type Draft,
+  type DraftAction,
 } from './draftReducer'
 
 // Règles du brouillon de séance, testées sans interface : c'est la logique métier pure.
@@ -85,6 +86,22 @@ describe('draftReducer', () => {
     draft = draftReducer(draft, { type: 'setHeadset', headsetId: 'pico-4' })
     expect(draft).toMatchObject({ name: 'Atelier 2nde C', headsetId: 'pico-4' })
     expect(draftReducer(draft, { type: 'reset' })).toEqual(emptyDraft)
+  })
+
+  it('bloque toute modification une fois la séance enregistrée, sauf la remise à zéro', () => {
+    const saved = draftReducer(draftWith(a, b), { type: 'saved', sessionId: 'ses_004' })
+    expect(saved.savedSessionId).toBe('ses_004')
+    for (const action of [
+      { type: 'add', video: c },
+      { type: 'remove', videoId: 'vid_001' },
+      { type: 'moveUp', videoId: 'vid_002' },
+      { type: 'rename', name: 'Autre nom' },
+      { type: 'setHeadset', headsetId: 'pico-4' },
+      { type: 'saved', sessionId: 'ses_005' },
+    ] satisfies DraftAction[]) {
+      expect(draftReducer(saved, action)).toBe(saved)
+    }
+    expect(draftReducer(saved, { type: 'reset' })).toEqual(emptyDraft)
   })
 })
 
