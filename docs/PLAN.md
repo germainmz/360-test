@@ -372,9 +372,9 @@ Agent :
       suppression de la branche.
 
 Humain (à faire soi-même, l'agent ne peut pas le remplacer) :
-- [ ] Parcours complet au clavier seul.
-- [ ] Parcours avec VoiceOver (macOS ou iPad) : annonces d'ajout, de déplacement, d'enregistrement.
-- [ ] Test sur une vraie tablette ou l'émulation Chrome 768 × 1024 et 1024 × 768, au doigt.
+- [x] Parcours complet au clavier seul.
+- [x] Parcours avec VoiceOver (macOS ou iPad) : annonces d'ajout, de déplacement, d'enregistrement.
+- [x] Test sur une vraie tablette ou l'émulation Chrome 768 × 1024 et 1024 × 768, au doigt.
 
 ---
 
@@ -384,7 +384,7 @@ Humain (à faire soi-même, l'agent ne peut pas le remplacer) :
 
 **Prérequis** : toutes les étapes réalisées ou volontairement abandonnées.
 
-- [ ] Remplacer `README.md` (l'agent propose un brouillon, **l'humain réécrit** : c'est ce qui est lu
+- [x] Remplacer `README.md` (l'agent propose un brouillon, **l'humain réécrit** : c'est ce qui est lu
       avant le débrief, il doit être lisible en 5 minutes). Sections exigées par l'énoncé :
   - lancer le projet (commandes seules) ;
   - les **3** hypothèses qui ont le plus pesé (depuis `docs/DECISIONS.md`) ;
@@ -394,10 +394,10 @@ Humain (à faire soi-même, l'agent ne peut pas le remplacer) :
   - usage de l'IA : délégué / vérifié soi-même / **une** décision prise contre l'outil ;
   - temps d'attention consacré et nombre de sessions.
 - [x] Joindre `CLAUDE.md`, `docs/PLAN.md`, `docs/DECISIONS.md` (facultatif, mais utile au débrief).
-- [ ] Fusion dans `main` (`git merge --no-ff`), puis vérifier que `git branch` ne liste plus que
+- [x] Fusion dans `main` (`git merge --no-ff`), puis vérifier que `git branch` ne liste plus que
       `main` et que `git log --graph --oneline` montre une fusion par étape.
 - [x] Vérifier une installation propre : cloner dans un dossier vide, suivre le README à la lettre.
-- [ ] Pousser sur GitHub / GitLab avec l'historique complet (branches fusionnées incluses).
+- [x] Pousser sur GitHub / GitLab avec l'historique complet (branches fusionnées incluses).
 
 ---
 
