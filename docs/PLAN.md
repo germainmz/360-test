@@ -341,14 +341,14 @@ récupérable sans ressaisie ; aucune séance en double dans `GET /sessions`.
 
 **Prérequis** : étape 6. À sauter si le budget est dépassé.
 
-- [ ] `/seances` : liste (nom, date en français, nombre de vidéos, durée totale) avec états
+- [x] `/seances` : liste (nom, date en français, nombre de vidéos, durée totale) avec états
       chargement / vide / erreur.
-- [ ] `/seances/:id` : détail avec la liste ordonnée des vidéos (récupérées via `GET /videos/{id}`
+- [x] `/seances/:id` : détail avec la liste ordonnée des vidéos (récupérées via `GET /videos/{id}`
       ou depuis le cache), gestion du 404.
-- [ ] Action « Repartir de cette séance » : charge la séance dans le brouillon (après confirmation
+- [x] Action « Repartir de cette séance » : charge la séance dans le brouillon (après confirmation
       si le brouillon courant n'est pas vide).
 
-- [ ] Vérifications vertes, branche relue par l'humain, puis fusion dans `main` (`git merge --no-ff`) et suppression de la branche.
+- [x] Vérifications vertes, branche relue par l'humain, puis fusion dans `main` (`git merge --no-ff`) et suppression de la branche.
 
 **Critère d'acceptation** : une séance enregistrée à l'étape 6 apparaît en tête de liste.
 
