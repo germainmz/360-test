@@ -326,7 +326,7 @@ brouillons en parallèle.
       brouillon. Le brouillon est vidé seulement à ce moment-là.
 - [x] Tests : succès, 500 puis succès au réessai, 422 mappé sur le bon champ, brouillon conservé.
 
-- [ ] Vérifications vertes, branche relue par l'humain, puis fusion dans `main` (`git merge --no-ff`) et suppression de la branche.
+- [x] Vérifications vertes, branche relue par l'humain, puis fusion dans `main` (`git merge --no-ff`) et suppression de la branche.
 
 **Critères d'acceptation** : en enregistrant 10 fois avec l'API simulée, chaque échec est
 récupérable sans ressaisie ; aucune séance en double dans `GET /sessions`.
