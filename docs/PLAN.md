@@ -255,7 +255,7 @@ réponse plus récente (vérifié par la clé de requête + test ou relecture).
       vide avec « Effacer les filtres » ; erreur avec « Réessayer » sans perdre les filtres.
 - [x] Tests : filtres ↔ URL, état vide, état d'erreur + réessai, `axe` sur la liste.
 
-- [ ] Vérifications vertes, branche relue par l'humain, puis fusion dans `main` (`git merge --no-ff`) et suppression de la branche.
+- [x] Vérifications vertes, branche relue par l'humain, puis fusion dans `main` (`git merge --no-ff`) et suppression de la branche.
 
 **Critères d'acceptation** : avec l'API simulée, rechercher « garagiste » mène aux vidéos de
 mécanique ; les erreurs aléatoires affichent l'état d'erreur et « Réessayer » fonctionne ; tout est
