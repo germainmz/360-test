@@ -78,18 +78,13 @@ Maquettes et notes : [`docs/maquettes/`](docs/maquettes/).
 
 ## Usage de l'IA
 
-> ✍️ **À compléter par l'humain.** Proposition de base, à réécrire avec vos mots.
-
 - **Délégué** : maquettes (Claude Design), puis le code, les tests et la documentation à Claude
   Code, étape par étape, cadré par [`CLAUDE.md`](CLAUDE.md) et [`docs/PLAN.md`](docs/PLAN.md) : une
   branche et une PR par étape, fusion seulement après mon accord.
-- **Vérifié moi-même** : ✍️ (ex. : relecture des PR et des captures tablette, parcours clavier et
-  VoiceOver, tests sur tablette…)
-- **Une décision prise contre l'outil** : ✍️ (piste : l'agent avait classé le lien « Aller à ma
-  séance » en point non corrigé, puisque l'étape 8 demandait de vérifier sans ajouter ; je l'ai
-  fait ajouter, car traverser 24 cartes au clavier pour enregistrer est trop long pour ce public.)
+- **Vérifié moi-même** : design de l'application, relecture des PR et des captures tablette, parcours clavier et
+  VoiceOver, tests sur tablette émulé
 
 ## Temps d'attention
 
-✍️ **À compléter** : X h, en N sessions (du 25 au 27 octobre 2026). Historique : une branche
+3 h, en 3 sessions (du 25 au 27 octobre 2026). Historique : une branche
 fusionnée par étape (`git log --graph --oneline`).
