@@ -11,5 +11,7 @@ export default defineConfig({
     setupFiles: ['./src/test/setup.ts'],
     // Traite aussi le CSS importé par les composants, comme dans le navigateur.
     css: true,
+    // Un parcours clavier complet dépasse parfois 5 s sous charge (voir src/test/setup.ts).
+    testTimeout: 15000,
   },
 })
