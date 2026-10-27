@@ -49,6 +49,12 @@ Format : `AAAA-MM-JJ — Hypothèse — Pourquoi — Question posée par mail ? 
   ce qui évite de réenregistrer la même séance en double — non.
 - 2026-10-27 — Un message d'erreur sous un champ disparaît dès que ce champ est modifié ; il n'est
   pas recalculé à la frappe (on ne signale pas « nom obligatoire » pendant qu'on l'efface) — non.
+- 2026-10-27 — « Repartir de cette séance » garde le même nom (modifiable avant d'enregistrer) et
+  le même casque. La confirmation n'est demandée que si le brouillon courant n'est pas enregistré
+  et contient un nom ou une vidéo ; « Garder ma séance en cours » a le focus par défaut — non.
+- 2026-10-27 — Une vidéo d'une séance qui n'est plus au catalogue (404) est signalée dans le détail
+  et n'est pas copiée ; le bouton « Repartir » le dit avant le clic. Si une vidéo n'a pas pu être
+  chargée (erreur passagère), « Repartir » attend qu'elle le soit (« Réessayer » sur la ligne) — non.
 
 ## Choix techniques
 
@@ -95,6 +101,12 @@ Format : `AAAA-MM-JJ — Hypothèse — Pourquoi — Question posée par mail ? 
   brouillon : fermer le tiroir pendant l'envoi ne perd ni la réponse ni le message d'échec.
   Réessai automatique unique (`shouldRetrySave`, délai d'1 s de TanStack Query) réservé aux
   erreurs 5xx et réseau.
+- 2026-10-27 — « Mes séances » en route imbriquée : `/seances` garde la liste et affiche le détail
+  `/seances/:id` à côté (≥ 1024 px) ; en dessous, le détail s'affiche seul avec « ← Toutes mes
+  séances » (maquette 05). Les vidéos d'une séance sont lues une par une (`GET /videos/{id}`,
+  l'API n'a pas de recherche par liste) et reprises du cache du catalogue quand elles y sont.
+- 2026-10-27 — Focus après une navigation par lien (`useFocusOnNavigation`) : sur le titre de la
+  page, ou sur le nom de la séance ouverte. Rien au chargement initial ni avec Précédent/Suivant.
 
 ## Choix d'interface (et pour qui)
 
@@ -127,6 +139,10 @@ Format : `AAAA-MM-JJ — Hypothèse — Pourquoi — Question posée par mail ? 
   maquette (« Voir la confirmation » une fois la séance enregistrée). Pendant l'envoi, le bouton
   reste focalisable (`aria-disabled`) et passe par « Enregistrement… » puis « Réessayer » si
   besoin : le focus ne saute pas.
+- 2026-10-27 — Liste des séances : toute la carte est cliquable (lien étiré) ; « Voir » / « Affichée »
+  sont décoratifs, la séance affichée est signalée par `aria-current="page"`. Titre « Mes séances »
+  au-dessus des deux colonnes (la maquette le met dans la colonne de gauche) pour qu'il reste en
+  tablette portrait quand le détail est affiché seul.
 
 ## Laissé de côté volontairement
 
