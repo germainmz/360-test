@@ -6,6 +6,7 @@ import {
   useQueryClient,
 } from '@tanstack/react-query'
 import { apiGet, apiPost } from './client'
+import { shouldRetrySave } from './queryClient'
 import { normalizeFilters, queryKeys, type VideoFilters } from './queryKeys'
 import type {
   Audience,
@@ -95,11 +96,15 @@ export function useSession(id: string | undefined) {
   })
 }
 
-/** Enregistre une séance. Pas de réessai automatique ici : il est géré à l'étape 6. */
+/**
+ * Enregistre une séance. Une erreur serveur ou réseau est réessayée une fois automatiquement
+ * (sans risque de doublon, voir `shouldRetrySave`) ; une séance refusée (422) ne l'est pas.
+ */
 export function useCreateSession() {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: (input: SessionInput) => apiPost<Session>('/sessions', input),
+    retry: shouldRetrySave,
     // La nouvelle séance est mise en cache tout de suite (détail affichable sans attendre)
     // et la liste « Mes séances » sera rechargée pour l'inclure.
     onSuccess: (session) => {
