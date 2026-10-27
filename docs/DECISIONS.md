@@ -168,6 +168,10 @@ Corrigé : débordement à 320 px (en-tête, détail d'une séance) et contraste
   place au-dessus du clavier virtuel ; tout reste accessible en faisant défiler.
 - 2026-10-27 — Les **annonces vocales** (ajout, déplacement, enregistrement) sont testées dans le
   DOM, pas avec un vrai lecteur d'écran : à confirmer par le parcours VoiceOver (étape 8, humain).
+- 2026-10-27 — Corrige le point « Atteindre « Ma séance » au clavier » ci-dessus, à la demande de
+  l'humain : lien d'évitement « Aller à ma séance », visible au focus, juste après la navigation.
+  Il place le focus sur le titre du panneau (≥ 1024 px) ou sur « Voir et enregistrer » (barre de
+  la tablette portrait).
 
 ## Usage de l'IA
 
