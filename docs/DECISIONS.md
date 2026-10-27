@@ -110,3 +110,10 @@ Format : `AAAA-MM-JJ — Hypothèse — Pourquoi — Question posée par mail ? 
 | Date | Durée | Contenu |
 |---|---|---|
 | 2026-10-25 | | Cadrage : CLAUDE.md, plan, décisions |
+
+## Corrections découvertes en cours de route
+
+- 2026-10-27 — `fix/saisie-recherche` : sous charge, des lettres tapées dans la recherche étaient
+  perdues (« garagiste » → « gaagiste ») : l'URL, mise à jour 300 ms après la frappe, réécrasait
+  le champ si la personne continuait à taper. Le champ ignore désormais l'écho de sa propre
+  écriture. Trouvé par un test instable pendant l'étape 5 ; test de régression ajouté.
