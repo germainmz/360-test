@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useMemo, useState } from 'react'
+import { forwardRef, useEffect, useMemo, useRef, useState } from 'react'
 import { ComboBox, Input, Label, ListBox, ListBoxItem, Popover } from 'react-aria-components'
 import type { Job } from '../../api/types'
 import { useDebouncedValue } from '../../hooks/useDebouncedValue'
@@ -26,15 +26,25 @@ export const CatalogSearch = forwardRef<HTMLInputElement, CatalogSearchProps>(
     const searchJobs = useMemo(() => createJobIndex(jobs), [jobs])
     const suggestions = useMemo(() => searchJobs(inputValue), [searchJobs, inputValue])
 
+    // Dernière valeur écrite dans l'URL par ce champ : sert à reconnaître l'« écho » de notre
+    // propre écriture, qui peut revenir alors que la personne a continué à taper.
+    const writtenQuery = useRef(query)
+
     useEffect(() => {
-      if (debouncedValue.trim() !== query) onQueryChange(debouncedValue)
+      const next = debouncedValue.trim()
+      if (next === query) return
+      writtenQuery.current = next
+      onQueryChange(next)
       // `query` est volontairement absent : seule une nouvelle saisie doit écrire dans l'URL.
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [debouncedValue])
 
-    // L'URL a changé sans saisie (« Effacer les filtres », retour arrière) : on suit l'URL.
+    // L'URL a changé sans venir de ce champ (« Effacer les filtres », retour arrière) : on la suit.
+    // L'écho de notre propre écriture est ignoré, sinon les lettres tapées entre-temps seraient perdues.
     useEffect(() => {
-      setInputValue((current) => (current.trim() === query ? current : query))
+      if (query === writtenQuery.current) return
+      writtenQuery.current = query
+      setInputValue(query)
     }, [query])
 
     return (
