@@ -14,6 +14,12 @@ Avec Docker (API + application sur http://localhost:8080) :
 docker compose up --build
 ```
 
+Avec Docker en développement (rechargement à chaud, application sur http://localhost:5173) :
+
+```bash
+docker compose -f docker-compose.dev.yml up --build
+```
+
 Sans Docker (Node ≥ 20, application sur http://localhost:5173) :
 
 ```bash

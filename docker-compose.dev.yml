@@ -1,0 +1,40 @@
+# Développement avec rechargement à chaud :
+#   docker compose -f docker-compose.dev.yml up --build, puis http://localhost:5173
+# Le code de app/ est monté dans le conteneur : chaque modification est prise en compte sans rebuild.
+services:
+  # Même API simulée que docker-compose.yml.
+  api:
+    build: .
+    ports:
+      - '4000:4000'
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://localhost:4000/health']
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # Serveur de développement Vite (HMR) au lieu du build servi par nginx.
+  web:
+    image: node:22-alpine
+    working_dir: /app
+    # npm ci ne réécrit jamais package-lock.json ; il n'est relancé que si ce fichier a changé.
+    command: >
+      sh -c "sha1sum package-lock.json | cmp -s - node_modules/.lock.sha1
+      || (npm ci && sha1sum package-lock.json > node_modules/.lock.sha1)
+      && npm run dev -- --host 0.0.0.0 --port 5173 --strictPort"
+    ports:
+      - '5173:5173'
+    environment:
+      # Le navigateur appelle l'API en direct sur le port publié ci-dessus.
+      VITE_API_URL: http://localhost:4000
+    volumes:
+      - ./app:/app
+      # node_modules reste dans le conteneur : les binaires natifs (rollup, tailwind) de macOS ne
+      # fonctionnent pas sous Linux, et inversement.
+      - web_node_modules:/app/node_modules
+    depends_on:
+      api:
+        condition: service_healthy
+
+volumes:
+  web_node_modules:
